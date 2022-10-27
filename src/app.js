@@ -1,0 +1,48 @@
+const cookieParser = require('cookie-parser');
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const path = require('path');
+const flash = require('connect-flash');
+
+//Initializations
+const app = express();
+require('./database');
+//Requerir config passport
+
+//Settings
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server running at:\x1b[36m http://localhost:${port}\x1b[0m`));
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+//Middlewares
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+app.use(cookieParser('SecretStringForCookies'));
+app.use(session({
+    secret: 'mysecretapp',
+    //cookie: {maxAge: 60000}, Allow the session to be 1 min active
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+
+//Global variables
+app.use((req, res, next) => {
+    res.locals.error = req.flash('error');
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.danger_msg = req.flash('danger_msg');
+    res.locals.user = req.user || null;
+    next();
+});
+
+//Routes
+app.use(require('./routes/index'));
