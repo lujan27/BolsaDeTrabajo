@@ -1,31 +1,37 @@
 <%- include('includes/header.ejs') %>
-<%- include('includes/alerts.ejs') %> 
+<%- include('includes/alerts.ejs') %>
 
 <body style="overflow-y: hidden;">
-  <div class="main">
-    <input type="checkbox" id="chk" aria-hidden="true">
-
-    <div class="signup">
-      <form action="">
-        <label for="chk" aria-hidden="true">
-          Sign up
-        </label>
-        <input type="text" name="username" placeholder="Nombre de usuario...">
-        <input type="email" name="email" placeholder="Correo electronico...">
-        <input type="password" name="password" placeholder="Contraseña...">
-        <button>Registrarte</button>
-      </form>
+  <div class="container-flex">
+    <div class="row">
+      <div class="main">
+        <input type="checkbox" id="chk" aria-hidden="true">
+    
+        <div class="signup">
+          <form action="/signup" method="post">
+            <label for="chk" aria-hidden="true">
+              Sign up
+            </label>
+            <input type="text" name="username" placeholder="Nombre de usuario...">
+            <input type="email" name="email" placeholder="Correo electronico...">
+            <input type="password" name="password" placeholder="Contraseña...">
+            <input type="password" name="confirmPassword" placeholder="Repite la contraseña...">
+            <button>Registrarte</button>
+          </form>
+        </div>
+    
+        <div class="login">
+          <form action="/signin" method="post">
+            <label for="chk" aria-hidden="true">Login</label>
+            <input type="text" name="username" placeholder="Nombre de usuario...">
+            <input type="password" name="password" placeholder="Contraseña...">
+            <button>Entrar</button>
+          </form>
+        </div>
+      </div> 
     </div>
+  </div>
 
-    <div class="login">
-      <form action="">
-        <label for="chk" aria-hidden="true">Login</label>
-        <input type="email" name="email" placeholder="Correo electronico...">
-        <input type="password" name="password" placeholder="Contraseña...">
-        <button>Entrar</button>
-      </form>
-    </div>
-  </div> 
   <div class="example-box">
     <div class="background-shapes">
     </div> 

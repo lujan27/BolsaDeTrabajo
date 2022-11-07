@@ -1,30 +1,35 @@
 <% if(error && error.length >0){ %> 
-    <%=error%>
-    <div class="container-flex">
-        <div class="row">
-            <div class="mx-auto">
-
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <%= error %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%error.forEach(errors =>{%>         
+        <p id="msg" hidden><%=errors%></p>
+    <% }) %>
+    <script>
+        const msg = document.getElementById('msg').innerText;
+        Swal.fire(msg)
+    </script> 
 <% } %> 
 
 <!--Error Message-->
-<% if(danger_msg[0]) {%> 
-    <div class="header alert alert-danger alert-dismissible">
-        <%= danger_msg %> 
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
-    </div>
+<% if(danger_msg[0]) {%>
+    <p id="msg_danger" hidden><%=danger_msg%></p>    
+    <script>
+        const msg_danger = document.getElementById('msg_danger').innerText;
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: msg_danger            
+        })
+    </script>
 <% } %>
 
 <!--Success Message-->
 <% if(success_msg[0]) {%> 
-    <div class="header alert alert-success alert-dismissible">
-        <%= success_msg %> 
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
-    </div>
+    <p id="msg_success" hidden><%=success_msg%></p>
+    <script>
+        const msg_success = document.getElementById('msg_success').innerText;
+        Swal.fire(
+            'Exito!',
+            msg_success,
+            'success'
+        )
+    </script>
 <% } %> 

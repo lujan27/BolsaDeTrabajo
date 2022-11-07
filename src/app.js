@@ -1,3 +1,4 @@
+const methodoverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const session = require('express-session');
@@ -8,7 +9,7 @@ const flash = require('connect-flash');
 //Initializations
 const app = express();
 require('./database');
-//Requerir config passport
+require('./config/passport');
 
 //Settings
 const port = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 //Middlewares
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+app.use(methodoverride('_method'));
 app.use(cookieParser('SecretStringForCookies'));
 app.use(session({
     secret: 'mysecretapp',
