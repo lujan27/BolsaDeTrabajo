@@ -9,4 +9,6 @@ const adminCtrl = require('../controllers/adminCtrl');
 
 .get('/admin/usuarios', adminCtrl.getUsers)
 
+.post('/admin/addvacant', adminCtrl.postNewVacant)
+
 module.exports = router;

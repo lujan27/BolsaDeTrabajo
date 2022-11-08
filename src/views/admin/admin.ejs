@@ -6,24 +6,112 @@
     <div class="row">
         <div class="col-8">
             
-            <a class="btn btn-success m-2" href="#"><ion-icon name="add-outline"></ion-icon> Agregar vacante</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><ion-icon name="add-outline"></ion-icon> Agregar vacante</button>
             
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Vacante</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/admin/addvacant" method="post">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Titulo:</label>
+                            <input type="text" name="title" class="form-control" id="recipient-name" placeholder="Titulo..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-position" class="col-form-label">Puesto:</label>
+                            <input type="text" name="position" class="form-control" id="recipient-position" placeholder="Puesto...">
+                        </div>
+                        <div class="mb-3 row pl-3 pr-3">
+                            <label for="recipient-scheduleIn" class="col-form-label">Horario de entrada:</label>
+                            <select name="scheduleIn" class="col-6 form-control" id="recipient-scheduleIn">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <select name="timeIn" class="col-6 form-control" id="">
+                                <option value="AM">AM</option>
+                                <option value="PM">PM</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 row pl-3 pr-3">
+                            <label for="recipient-scheduleOut" class="col-form-label">Horario de salida:</label>
+                            <select name="scheduleOut" class="col-6 form-control" id="recipient-scheduleOut">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            <select name="timeOut" class="col-6 form-control" id="">
+                                <option value="PM">PM</option>
+                                <option value="AM">AM</option>                                
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-salary" class="col-form-label">Salario:</label>
+                            <input type="number" name="salary" class="form-control" id="recipient-salary">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Descripción:</label>
+                            <textarea name="description" class="form-control" id="message-text" required></textarea>
+                        </div>                        
+                        <div class="mb-3">
+                            <label for="recipient-area" class="col-form-label">Áreas para la vacante:</label>
+                            <select name="area" class="form-control js-example-basic-multiple" id="recipient-area" multiple="multiple" style="width: 450px;" required>
+                                <option value="Desarrollador web">Desarrollador web</option>
+                                <option value="Programador">Programador</option>
+                                <option value="Contaduria">Contaduria</option>
+                                <option value="Mercadologo">Mercadologo</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Publicar</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </form>
+                    </div>                    
+                  </div>
+                </div>
+              </div>
+
             <table id="vacants">
                 <thead>
-                    <tr>
-                        <th>ID</th>
+                    <tr>                        
                         <th>Titulo</th>
                         <th>Puesto</th>
                         <th>Fecha</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <% vacants.forEach(vacant => { %> 
+                    <tr id="<%=vacant._id%>">
+                        <td><%=vacant.title%></td>
+                        <td><%=vacant.position%></td>
+                        <td><%=vacant.createdAt%></td>
+                        <td>Eliminar</td>
                     </tr>
+                    <% }) %> 
                 </tbody>
             </table>
         </div>    
@@ -32,4 +120,5 @@
 </div>
 
 
-<%- include('../includes/scripts.ejs') %> 
+<%- include('../includes/scripts.ejs') %>
+<script src="/js/functions.js"></script>
