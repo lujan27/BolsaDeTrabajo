@@ -6,6 +6,11 @@ const userModel = require('../models/userModel');
 
     router
 
+.get('/out', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+})
+
 .get('/', (req, res) => {
     res.render('index', {
         doc_title: 'Inicio'
@@ -19,7 +24,7 @@ const userModel = require('../models/userModel');
 })
 
 .post('/signup', async (req, res) => {
-    const {username, email, password, confirmPassword} = req.body;
+    const {username, email, password, confirmPassword, role} = req.body;
     let error = [];
 
     if(username.length <= 0){
@@ -33,6 +38,9 @@ const userModel = require('../models/userModel');
     }
     if(password.length <= 4){
         error.push('La contraseña debe tener más de 4 digitos')
+    }
+    if(role == ''){
+        error.push('Tiene que seleccionar un tipo de cuenta');
     }
     if(error.length > 0){
         res.render('index', {
@@ -52,7 +60,7 @@ const userModel = require('../models/userModel');
             req.flash('danger_msg', 'El usuario ya está registrado');
             res.redirect('/');
         }else {
-            const newUser = new userModel({username, email, password, confirmPassword});
+            const newUser = new userModel({username, email, password, role});
             newUser.password = await newUser.encryptPassword(password);
             await newUser.save();
             req.flash('success_msg', 'Registro completado!');
@@ -68,8 +76,13 @@ const userModel = require('../models/userModel');
 }), (req, res) => {
     switch(req.user.role){
         case 1:
-            req.flash('success_msg', 'Bienvenido '+req.user.username);
-            res.redirect('/');            
+            res.redirect('/user');
+            break;
+        case 2:
+            res.redirect('/org');
+            break;
+        case 3:
+            res.redirect('/admin');
             break;
         default:
             req.flash('success_msg', 'Bienvenido '+req.user.username);

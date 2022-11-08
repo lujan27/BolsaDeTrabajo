@@ -1,0 +1,37 @@
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/alerts.ejs') %> 
+<%- include('../includes/navbar.ejs') %>
+
+<div class="container-fluid" style="padding: 1cm;">
+    <div class="row">
+        <div class="col-8">
+            <table class="table table-hover" id="users">
+                <thead>
+                    <tr id="active">
+                        <th>Usuario</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Área</th>
+                    </tr>            
+                </thead>
+                <tbody>
+                    <%usuarios.forEach(usuario => {%>
+                    <tr id="<%=usuario._id%>">
+                        <td><%=usuario.username%></td>
+                        <td><%=usuario.email%></td>
+                        <td><%=usuario.role%></td>
+                        <%if(!usuario.area){%>
+                            <td>No especificado</td>                    
+                        <%} else {%>
+                            <td><%=usuario.area%></td>
+                        <% } %> 
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <%- include('../includes/right.ejs') %> 
+    </div>
+</div>
+
+<%- include('../includes/scripts.ejs') %> 

@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        
+            <% if(user.role == 1){ %>
+                <a class="navbar-brand" id="titles" href="/user">
+                Usuario
+                </a>
+            <% } else if (user.role == 2){%>
+                <a class="navbar-brand" id="titles" href="/org">
+                Organización
+                </a>
+            <% } else {%>
+                <a class="navbar-brand" id="titles" href="/admin">
+                Administrador
+                </a>
+            <% } %> 
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        <ion-icon name="menu-outline" id="icono"></ion-icon>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll nav-pills nav-fill" id="myTab" role="tablist" style="--bs-scroll-height: 100px;">
+            <li class="nav-item" id="items">
+            <a class="nav-link" id="active" href="/admin"><ion-icon name="home-outline"></ion-icon> Inicio</a>
+            </li>
+            <li class="nav-item" id="items">
+            <a class="nav-link" href="/admin/usuarios" id="otheritems"><ion-icon name="people-circle-outline"></ion-icon> Usuarios</a>
+            </li>               
+        </ul>
+        </div>
+    </div>
+</nav>

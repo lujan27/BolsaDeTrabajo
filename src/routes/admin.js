@@ -7,4 +7,6 @@ const adminCtrl = require('../controllers/adminCtrl');
     
 .get('/admin', adminCtrl.getAdminHome)
 
+.get('/admin/usuarios', adminCtrl.getUsers)
+
 module.exports = router;

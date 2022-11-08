@@ -1,0 +1,22 @@
+.encabezado{
+    background: #c40413;
+    color: white;    
+}
+#right{    
+    background-color: #ba6464;
+    font-size: 1.3em;
+    padding: 1cm;
+    border-radius: 10px;
+}
+.vacante{
+    color: white;
+}
+.color{
+    background-color: #7e1a1c;
+    color: white;
+    font-size: 1em;
+}
+.color:hover{
+    background-color: #c40413;
+    color: white;
+}
