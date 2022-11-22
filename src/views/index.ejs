@@ -14,13 +14,25 @@
             </label>
             <input type="text" name="username" placeholder="Nombre de usuario...">
             <input type="email" name="email" placeholder="Correo electronico...">
-            <input type="password" name="password" placeholder="Contraseña...">
-            <input type="password" name="confirmPassword" placeholder="Repite la contraseña...">
+            <input type="password" name="password" placeholder="Contraseña...">            
             <select name="role" id="">
-              <option value="">Seleccione su tipo de cuenta</option>
+              <option value="" selected="true" disabled>Tipo de cuenta</option>
               <option value="1">Usuario</option>
               <option value="2">Organización</option>
             </select>
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-8" style="left: 5px;">
+                <select name="area" class="form-control combo-login">
+                <option value="" selected="true" disabled>Área de trabajo</option>
+                  <% jobs.forEach(job => { %>
+                    <option value="<%=job.name%>"><%=job.name%></option>                  
+                  <% }) %>
+              </select>     
+              </div>
+              <div class="col-2"></div>
+            </div>
+                   
             <button>Registrarte</button>
           </form>
         </div>
@@ -44,4 +56,5 @@
 
 </body>
 
-<%- include('includes/scripts.ejs') %> 
+<%- include('includes/scripts.ejs') %>
+<script src="/js/functions.js"></script>

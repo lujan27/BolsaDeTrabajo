@@ -1,15 +1,17 @@
 <%- include('../includes/header.ejs') %>
 <%- include('../includes/alerts.ejs') %> 
-<%- include('../includes/navbar.ejs') %>
+
 
 <div class="container-fluid" style="padding: 1cm;">
     <div class="row">
-        <div class="col-8">
+        <div class="col-9">
             
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><ion-icon name="add-outline"></ion-icon> Agregar vacante</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                <ion-icon name="add-circle-outline" style="font-size: 1em;"></ion-icon> Agregar vacante
+            </button>
             
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-scrollable">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Vacante</h1>
@@ -69,19 +71,18 @@
                         </div>
                         <div class="mb-3">
                             <label for="recipient-salary" class="col-form-label">Salario:</label>
-                            <input type="number" name="salary" class="form-control" id="recipient-salary">
+                            <input type="number" name="salary" class="form-control" id="recipient-salary" placeholder="Introduzca una cantidad...">
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Descripción:</label>
                             <textarea name="description" class="form-control" id="message-text" required></textarea>
-                        </div>                        
+                        </div>
                         <div class="mb-3">
                             <label for="recipient-area" class="col-form-label">Áreas para la vacante:</label>
                             <select name="area" class="form-control js-example-basic-multiple" id="recipient-area" multiple="multiple" style="width: 450px;" required>
-                                <option value="Desarrollador web">Desarrollador web</option>
-                                <option value="Programador">Programador</option>
-                                <option value="Contaduria">Contaduria</option>
-                                <option value="Mercadologo">Mercadologo</option>
+                                <% jobs.forEach(job => { %>
+                                    <option value="<%=job.name%>"><%=job.name%></option>
+                                <% }) %>
                             </select>
                         </div>
                         <div class="modal-footer">
@@ -97,19 +98,212 @@
             <table id="vacants">
                 <thead>
                     <tr>                        
-                        <th>Titulo</th>
-                        <th>Puesto</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
+                        <th>Titulo:</th>
+                        <th>Puesto:</th>
+                        <th>Fecha:</th>
+                        <th>Creada por:</th>
+                        <th>Acciones:</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% vacants.forEach(vacant => { %> 
+                    <% vacants.forEach((vacant, i) => { %> 
                     <tr id="<%=vacant._id%>">
                         <td><%=vacant.title%></td>
                         <td><%=vacant.position%></td>
-                        <td><%=vacant.createdAt%></td>
-                        <td>Eliminar</td>
+                        <td><%=moment(vacant.createdAt).fromNow()%></td>
+                        <td><%=vacant.createdby%></td>
+                        <td>
+                            <div class="btn-group dropup">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Desplegar                            
+                                </button>
+                                <ul class="dropdown-menu text-center" style="background-color: transparent; border: none;">
+                                    <li>
+                                        <!-- Button trigger modal show-->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInfo-<%=i%>" style="width: 100%;">
+                                            <ion-icon name="eye-outline" style="font-size: 1em;"></ion-icon> Mostrar vacante
+                                        </button>
+                                    </li>
+                                  <li>
+                                    <!-- Button trigger modal edit-->
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEdit-<%=i%>" style="width: 100%;">
+                                        <ion-icon name="create-outline" style="font-size: 1em;"></ion-icon> Editar vacante
+                                    </button>
+                                  </li>
+                                  <li>
+                                    <!-- Button trigger modal delete-->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop-<%=i%>" style="width: 100%;">
+                                        <ion-icon name="trash-outline" style="font-size: 1em;"></ion-icon> Eliminar vacante
+                                    </button>
+                                  </li>
+                                </ul>
+                              </div>            
+                              
+                            <!-- Modal info-->
+                            <div class="modal fade" id="modalInfo-<%=i%>" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Vacante <%=vacant.title%>:</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">                                                                             
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Titulo:</label>
+                                                <input type="text" name="title" class="form-control" id="recipient-name" placeholder="Titulo..." value="<%=vacant.title%>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-position" class="col-form-label">Puesto:</label>
+                                                <input type="text" name="position" class="form-control" id="recipient-position" placeholder="Puesto..." value="<%=vacant.position%>" disabled>
+                                            </div>
+                                            <div class="mb-3 row pl-3 pr-3">
+                                                <label for="recipient-scheduleIn" class="col-form-label">Horario de entrada:</label>                                                
+                                                <input type="text" name="scheduleIn" class="form-control" id="recipient-scheduleIn" placeholder="Entrada..." value="<%=vacant.scheduleIn%>" disabled>
+                                            </div>
+                                            <div class="mb-3 row pl-3 pr-3">
+                                                <label for="recipient-scheduleOut" class="col-form-label">Horario de salida:</label>                                                                                               
+                                                <input type="text" name="scheduleOut" class="form-control" id="recipient-scheduleOut" placeholder="Salida..." value="<%=vacant.scheduleOut%>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-salary" class="col-form-label">Salario:</label>
+                                                <input type="text" name="salary" class="form-control" id="recipient-salary" placeholder="Salario..." value="<%=vacant.salary%>" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="message-text" class="col-form-label">Descripción:</label>
+                                                <textarea name="description" class="form-control" id="message-text" disabled><%=vacant.description%></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="areas" class="col-form-label">Áreas de trabajo:</label>
+                                                <textarea name="area" class="form-control" id="areas" disabled><%=vacant.area.join(", ")%></textarea>
+                                            </div>                                            
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary" data-bs-target="#modalEdit-<%=i%>" data-bs-toggle="modal">Actualizar vacante</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            </div>
+                                    </div>                                    
+                                  </div>
+                                </div>
+                              </div> 
+
+                            <!-- Modal edit-->
+                            <div class="modal fade" id="modalEdit-<%=i%>" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Editar vacante:</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Form edit vacant -->
+                                        <form action="/admin/editvacant/<%=vacant._id%>?_method=PUT" method="post">
+                                            <div class="mb-3">
+                                                <label for="recipient-name" class="col-form-label">Titulo:</label>
+                                                <input type="text" name="title" class="form-control" id="recipient-name" placeholder="Titulo..." value="<%=vacant.title%>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-position" class="col-form-label">Puesto:</label>
+                                                <input type="text" name="position" class="form-control" id="recipient-position" placeholder="Puesto..." value="<%=vacant.position%>">
+                                            </div>
+                                            <div class="mb-3 row pl-3 pr-3">
+                                                <label for="recipient-scheduleIn" class="col-form-label">Horario de entrada:</label>
+                                                <select name="scheduleIn" class="col-6 form-control" id="recipient-scheduleIn">
+                                                    <!-- <option selected="true" disabled="disabled">seleccione la hora</option> -->
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                                <select name="timeIn" class="col-6 form-control" id="">
+                                                    <!-- <option selected="true" disabled="disabled">seleccione el horario</option> -->
+                                                    <option value="AM">AM</option>
+                                                    <option value="PM">PM</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3 row pl-3 pr-3">
+                                                <label for="recipient-scheduleOut" class="col-form-label">Horario de salida:</label>
+                                                <select name="scheduleOut" class="col-6 form-control" id="recipient-scheduleOut">
+                                                    <!-- <option selected="true" disabled="disabled">seleccione la hora</option> -->
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8">8</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                </select>
+                                                <select name="timeOut" class="col-6 form-control" id="">
+                                                    <!-- <option selected="true" disabled="disabled">seleccione el horario</option> -->
+                                                    <option value="PM">PM</option>
+                                                    <option value="AM">AM</option>                                
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-salary" class="col-form-label">Salario:</label>
+                                                <input type="number" name="salary" class="form-control" id="recipient-salary" placeholder="Introduzca una cantidad..." 
+                                                <% if(vacant.salary == 'No especificado'){ %> value="" <% }else {%> value="<%=vacant.salary%>" <% } %> >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="message-text" class="col-form-label">Descripción:</label>
+                                                <textarea name="description" class="form-control" id="message-text" required><%=vacant.description%></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="recipient-area-edit-<%=i%>" class="col-form-label">Áreas para la vacante:</label>
+                                                <select name="area" class="form-control js-example-basic-multiple" id="recipient-area-edit-<%=i%>" multiple="multiple" style="width: 450px;" required>                                                    
+                                                    <% jobs.forEach(job => { %>
+                                                        <option value="<%=job.name%>"><%=job.name%></option>                  
+                                                    <% }) %>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label><strong>Nota: </strong>Si actualiza la información de la vacante debe seleccionar las áreas nuevamente.</label>
+                                                <label>Áreas para la vacante actual:</label>                                                
+                                                <textarea class="form-control" disabled><%=vacant.area.join(", ")%></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            </div>
+                                          </form>
+                                          <!-- Form edit vacant -->
+                                    </div>                                    
+                                  </div>
+                                </div>
+                              </div>                                                    
+  
+                            <!-- Modal delete-->
+                            <div class="modal fade" id="staticBackdrop-<%=i%>" data-id="" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar vacante</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Usted está a punto de eliminar la siguiente vacante: <strong><%=vacant.title%></strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="/admin/deletevacant/<%=vacant._id%>?_method=delete" method="post">
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     <% }) %> 
                 </tbody>

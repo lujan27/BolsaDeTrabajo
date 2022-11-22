@@ -2,5 +2,50 @@
 <%- include('../includes/alerts.ejs') %> 
 <%- include('../includes/navbar.ejs') %>
 
-
+<div class="container-fluid" style="padding: 1cm;">
+    <div class="row">
+        <div class="col-9">
+            <div class="row mb-3">
+                <h4 class="text-center"><strong> Ofertas disponibles para ti: </strong></h4>
+            <% vacants.forEach((vacant, i) => { %>
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div class="card text-center mb-3">
+                        <div class="card-header">
+                            <strong><%=vacant.title%></strong>
+                        </div>
+                        <div class="card-body">
+                        <h5 class="card-title"><strong> Descripción: </strong></h5>
+                        <p class="card-text"><%= (vacant.description.length > 250) 
+                            ? vacant.description.slice(0, 250) + '...'
+                            : vacant.description%></p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <%=moment(vacant.createdAt).fromNow()%>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card card-header text-center col-10 mb-4 border border-danger" style="height: 18rem; margin-bottom: 1cm;">
+                    <div class="card-header">
+                        
+                    </div>
+                    <div class="card-body">                  
+                    <p class="card-text text-justify"><strong> Descripción: </strong><br></p>
+                    <h6 class="card-title">Áreas de trabajo:</h6>
+                    <p class="card-text"></p>
+                    <a href="#" class="btn btn-primary mb-4">Go somewhere</a>                    
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted"></small>
+                    </div>
+                </div> -->
+                <div class="col-1"></div>
+            
+            <% }) %>
+            </div>
+        </div>
+        <%- include('../includes/right.ejs') %> 
+    </div>
+</div>
 <%- include('../includes/scripts.ejs') %> 

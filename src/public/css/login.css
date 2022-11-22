@@ -65,6 +65,19 @@ select{
 	outline: none;
 	border-radius: 5px;
 }
+.combo-login{
+	width: 95%;
+	height: 50%;
+	background: #e0dede;
+	color: black;
+	justify-content: center;
+	display: flex;
+	margin: 20px auto;
+	padding: 10px;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+}
 button{
 	width: 60%;
 	height: 40px;

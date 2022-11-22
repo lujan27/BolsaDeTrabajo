@@ -4,7 +4,7 @@
 
 <div class="container-fluid" style="padding: 1cm;">
     <div class="row">
-        <div class="col-8">
+        <div class="col-9">
             <table class="table table-hover" id="users">
                 <thead>
                     <tr id="active">
@@ -12,19 +12,224 @@
                         <th>Correo</th>
                         <th>Rol</th>
                         <th>Área</th>
+                        <th>Acciones</th>
                     </tr>            
                 </thead>
                 <tbody>
-                    <%usuarios.forEach(usuario => {%>
+                    <%usuarios.forEach((usuario, i) => {%>
                     <tr id="<%=usuario._id%>">
                         <td><%=usuario.username%></td>
                         <td><%=usuario.email%></td>
-                        <td><%=usuario.role%></td>
+                        <td>
+                            <% if(usuario.role == '1'){ %> 
+                                Usuario
+                            <% } else if(usuario.role == '2') {%> 
+                                Organización
+                            <% } else {%>
+                                Administrador
+                            <% } %>
+                        </td>
                         <%if(!usuario.area){%>
                             <td>No especificado</td>                    
                         <%} else {%>
                             <td><%=usuario.area%></td>
-                        <% } %> 
+                        <% } %>
+                        <td>
+                            <div class="btn-group dropup">
+                                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Desplegar                            
+                                </button>
+                                <ul class="dropdown-menu text-center" style="background-color: transparent; border: none;">
+                                    <li>
+                                        <!-- Button trigger modal show-->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInfo-user-<%=i%>" style="width: 100%;">
+                                            <ion-icon name="eye-outline" style="font-size: 1em;"></ion-icon> Información
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <!-- Button trigger modal edit-->
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editUser-<%=i%>" style="width: 100%;">
+                                            <ion-icon name="create-outline" style="font-size: 1em;"></ion-icon> Editar usuario
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <!-- Button trigger modal delete-->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUser-<%=i%>" style="width: 100%;">
+                                            <ion-icon name="trash-outline" style="font-size: 1em;"></ion-icon> Eliminar usuario
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Modal info user-->
+                            <div class="modal fade" id="modalInfo-user-<%=i%>" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">información de <%=usuario.username%>:</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">                                                                             
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Nombre(s):</label>
+                                                <% if(!usuario.name){ %> 
+                                                    <p class="form-control">No especificado</p>
+                                                <% } else {%> 
+                                                <p class="form-control"><%=usuario.name%></p>
+                                                <% } %>                                                
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Apellido(s):</label>
+                                                <% if(!usuario.lastname){ %> 
+                                                    <p class="form-control">No especificado</p>
+                                                <% } else {%> 
+                                                <p class="form-control"><%=usuario.lastname%></p>
+                                                <% } %>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Teléfono:</label>
+                                                <% if(!usuario.phone){ %> 
+                                                    <p class="form-control">No especificado</p>
+                                                <% } else {%> 
+                                                <p class="form-control"><%=usuario.phone%></p>
+                                                <% } %>                                                
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Fecha de nacimiento:</label>
+                                                <% if(!usuario.birth){ %> 
+                                                    <p class="form-control">No especificado</p>
+                                                <% } else {%> 
+                                                <p class="form-control"><%=moment(usuario.birth).format('L')%></p>
+                                                <% } %>                                                
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Usuario:</label>
+                                                <% if(!usuario.username){ %> 
+                                                    <p class="form-control">No especificado</p>
+                                                <% } else {%> 
+                                                <p class="form-control"><strong><%=usuario.username%></strong></p>
+                                                <% } %>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Correo electrónico:</label>
+                                                <% if(!usuario.email){ %> 
+                                                    <p class="form-control">No especificado</p>
+                                                <% } else {%> 
+                                                <p class="form-control"><%=usuario.email%></p>
+                                                <% } %>                                                
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="col-form-label">Tipo de cuenta:</label>
+                                                <% if(usuario.role == '1'){ %> 
+                                                    <p class="form-control">Usuario</p>
+                                                <% } else if(usuario.role == '2') {%> 
+                                                    <p class="form-control">Organización</p>
+                                                <% } else {%>
+                                                    <p class="form-control">Administrador</p>
+                                                <% } %>
+                                            </div>
+                                            <div class="mb-">
+                                                <% if(!usuario.area){ %> 
+                                                    <p class="form-control">No especificado</p>
+                                                <% } else {%> 
+                                                <p class="form-control"><%=usuario.area%></p>
+                                                <% } %>  
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-primary" data-bs-target="#editUser-<%=i%>" data-bs-toggle="modal">Actualizar Usuario</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            </div>
+                                    </div>                                    
+                                  </div>
+                                </div>
+                              </div> 
+
+                            <!-- Modal edit-->
+                            <div class="modal fade" id="editUser-<%=i%>" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Editar usuario:</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Form edit user -->
+                                        <form action="/admin/edituser/<%=usuario._id%>?_method=PUT" method="post">
+                                            <div class="mb-3">
+                                                <label for="nameUser-<%=i%>">Nombre:</label>
+                                                <input type="text" name="name" id="nameUser-<%=i%>" class="form-control" placeholder="Nombre..." value="<%=usuario.name%>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastnameUser-<%=i%>">Apellidos:</label>
+                                                <input type="text" name="lastname" id="lastnameUser-<%=i%>" class="form-control" placeholder="Apellidos..." value="<%=usuario.lastname%>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="phoneUser-<%=i%>">Teléfono:</label>
+                                                <input type="number" name="phone" id="phoneUser-<%=i%>" class="form-control" placeholder="Teléfono..." value="<%=usuario.phone%>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="birthUser-<%=i%>">Fecha de nacimiento:</label>
+                                                <input type="date" name="birth" id="birthUser-<%=i%>" class="form-control" placeholder="Fecha de nacimiento..." value="<%=usuario.birth%>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="usernameUser-<%=i%>">Usuario:</label>
+                                                <input type="text" name="username" id="usernameUser-<%=i%>" class="form-control" placeholder="Nombre de usuario..." value="<%=usuario.username%>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="emailUser-<%=i%>">Correo:</label>
+                                                <input type="email" name="email" id="emailUser-<%=i%>" class="form-control" placeholder="Correo electrónico..." value="<%=usuario.email%>" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="passUser-<%=i%>">Contraseña:</label>
+                                                <input type="password" name="password" id="passUser-<%=i%>" class="form-control" placeholder="Contraseña..." required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <select name="role" id="role-<%=i%>" class="form-control" required>
+                                                    <option value="" selected="true" disabled>Tipo de cuenta</option>
+                                                    <option value="1">Usuario</option>
+                                                    <option value="2">Organización</option>
+                                                </select>
+                                            </div>                                            
+                                            <div class="mb-3">
+                                                <label for="recipient-area-edit-user-<%=i%>" class="col-form-label">Áreas para el usuario:</label>
+                                                <select name="area" class="form-control js-example-basic-multiple-user" multiple="false" id="recipient-area-edit-user-<%=i%>" style="width: 450px;" required>                                                    
+                                                    <% jobs.forEach(job => { %>
+                                                        <option value="<%=job.name%>"><%=job.name%></option>                  
+                                                    <% }) %>
+                                                </select>
+                                            </div>                                            
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            </div>
+                                            </form>
+                                            <!-- Form edit user -->
+                                    </div>                                    
+                                    </div>
+                                </div>
+                                </div>                                                    
+    
+                            <!-- Modal delete-->
+                            <div class="modal fade" id="deleteUser-<%=i%>" data-id="" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar vacante</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Usted está a punto de eliminar el usuario: <strong><%=usuario.username%></strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            <form action="/admin/deleteuser/<%=usuario._id%>?_method=delete" method="post">
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                     <% }) %>
                 </tbody>
@@ -34,4 +239,5 @@
     </div>
 </div>
 
-<%- include('../includes/scripts.ejs') %> 
+<%- include('../includes/scripts.ejs') %>
+<script src="/js/functions.js"></script>

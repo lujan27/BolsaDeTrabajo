@@ -5,6 +5,11 @@ const session = require('express-session');
 const passport = require('passport');
 const path = require('path');
 const flash = require('connect-flash');
+const moment = require('moment');
+moment.locale('es-mx');
+
+//Models
+const jobsModel = require('./models/jobsModel');
 
 //Initializations
 const app = express();
@@ -38,11 +43,18 @@ app.use(passport.session());
 app.use(flash());
 
 //Global variables
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     res.locals.error = req.flash('error');
     res.locals.success_msg = req.flash('success_msg');
     res.locals.danger_msg = req.flash('danger_msg');
     res.locals.user = req.user || null;
+    res.locals.moment = moment;
+
+    res.locals.jobs = await jobsModel.aggregate([
+        {
+            '$sort': {'name': 1}
+        }
+    ])
     next();
 });
 

@@ -8,7 +8,8 @@ const vacantSchema = new Schema({
     scheduleOut: {type: String},
     salary: {type: String, default: 'No especificado'},
     description: {type: String},
-    area: {type: Array}
+    area: {type: Array},
+    createdby: {type: String}
 }, {
     versionKey: false,
     timestamps: true
