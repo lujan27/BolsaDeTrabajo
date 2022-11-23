@@ -1,7 +1,7 @@
 body{
     font-family: 'Jost', sans-serif;
 }
-nav{
+#navbar{
     background-color: #c40413;
     box-shadow: 2px 2px 10px #000;
 }
@@ -20,16 +20,33 @@ nav{
 }
 #active:hover{
     background-color: #ba6464;
-    transition: 1s;
+    transition: 0.5s;
 }
 #otheritems{
     color: white;    
 }
 #otheritems:hover{
     background-color: #ba6464;
-    transition: 1s;
+    transition: 0.5s;
 }
 #icono{
     color: white;
     font-size: 1.5em;
+}
+
+/* Vacants User */
+#vacantInfo{
+    background-color: #7e1a1c;
+    color: white;
+}
+
+#vacantInfo:hover{
+    background-color: #ba6464;
+    transition: 0.5s;
+}
+
+#vacantCard:hover{
+    z-index: 10;
+    transform: scale(1.1);
+    transition: 0.4s;
 }

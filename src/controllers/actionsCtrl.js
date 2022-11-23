@@ -101,7 +101,7 @@ actionsCtrl.getUsers = async (req, res) => {
 actionsCtrl.deleteUser = async(req, res) => {
     await userModel.findByIdAndDelete(req.params.id)
     req.flash('success_msg', 'Usuario eliminado!')
-    res.redirect('/admin')
+    res.redirect('/admin/usuarios')
 }
 
 actionsCtrl.editUser = async (req, res) => {

@@ -1,0 +1,44 @@
+<%- include('includes/header.ejs') %>
+<%- include('includes/alerts.ejs') %> 
+<%- include('includes/navbar.ejs') %>
+
+<div class="container-fluid" style="padding: 1cm;">
+    <div class="row">
+        <div class="col-4">
+
+        </div>
+        <div class="col-8">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <label class="form-control">Nombre: <%=profile.name%> </label>
+                        <label class="form-control">Teléfono: <%=profile.phone%> </label>
+                        <label class="form-control">Usuario: <%=profile.username%></label>
+                        <label class="form-control">Área: <%=profile.area%></label>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-control">Apellidos: <%=profile.lastname%></label>
+                        <label class="form-control">Fecha de nacimiento: <%=moment(profile.birth).format('L')%></label>
+                        <label class="form-control">Correo: <%=profile.email%></label>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="/profile-presentation/<%=user._id%>?_method=PUT" method="post">
+                            <label for="userResume" class="form-control">Presentación:</label>
+                            <textarea name="presentation" class="form-control mb-2" id="userResume" cols="30" rows="10" placeholder="<% if(!profile.presentation || profile.presentation == '') {%> Añade una presentación a tu perfil <% } %>" disabled><%=profile.presentation%> </textarea>
+                            <a class="btn btn-primary" id="btnEdit" style="color: white;" onclick="editPre()"> <ion-icon name="create-outline"></ion-icon> Editar</a>
+                            <button class="btn btn-success" id="btnSave" style="color: white;" hidden> <ion-icon name="save-outline"></ion-icon> Guardar</button>
+                            <a class="btn btn-danger" id="btnCancel" style="color: white;" onclick="cancelPre()" hidden> <ion-icon name="close-outline"></ion-icon> Cancelar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('includes/scripts.ejs') %>
+<script src="/js/functions.js"></script>

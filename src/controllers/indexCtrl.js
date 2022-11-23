@@ -1,6 +1,5 @@
 const indexCtrl = {}
 
-const passport = require('passport');
 const userModel = require('../models/userModel');
 
 indexCtrl.sessionOut = (req, res) => {
@@ -51,7 +50,7 @@ indexCtrl.signUp = async (req, res) => {
             req.flash('danger_msg', 'El usuario ya está registrado');
             res.redirect('/');
         }else {
-            const newUser = new userModel({username, email, password, area, role});
+            const newUser = new userModel({username, email, password, area, role, presentation: ''});
             newUser.password = await newUser.encryptPassword(password);
             await newUser.save();
             req.flash('success_msg', 'Registro completado!');
@@ -60,25 +59,21 @@ indexCtrl.signUp = async (req, res) => {
     }
 }
 
-indexCtrl.signIn = passport.authenticate('local', {
-    failureRedirect: '/',
-    failureFlash: true
-}), (req, res) => {
-    switch(req.user.role){
-        case 1:
-            res.redirect('/user');
-            break;
-        case 2:
-            res.redirect('/org');
-            break;
-        case 3:
-            res.redirect('/admin');
-            break;
-        default:
-            req.flash('success_msg', 'Bienvenido '+req.user.username);
-            res.redirect('/');            
-            break
-    }
+indexCtrl.userProfile = async (req, res) => {
+
+    const profile = await userModel.findById(req.params.id);
+
+    res.render('profile', {
+        doc_title: 'Perfil de ' + req.user.username,
+        profile
+    })
 }
 
+indexCtrl.editPresentation = async (req, res) => {
+    const {presentation} = req.body
+
+    await userModel.findByIdAndUpdate(req.params.id, {presentation})
+    req.flash('success_msg', 'Presentación actualizada')
+    res.redirect('/profile/'+req.params.id)
+}
 module.exports = indexCtrl;

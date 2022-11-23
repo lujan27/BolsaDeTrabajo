@@ -7,43 +7,76 @@
         <div class="col-9">
             <div class="row mb-3">
                 <h4 class="text-center"><strong> Ofertas disponibles para ti: </strong></h4>
-            <% vacants.forEach((vacant, i) => { %>
-                <div class="col-1"></div>
-                <div class="col-10">
-                    <div class="card text-center mb-3">
-                        <div class="card-header">
-                            <strong><%=vacant.title%></strong>
-                        </div>
+            <% vacants.forEach((vacant, i) => { %>                
+                
+                <div class="col-4" id="vacantCard">
+
+                    <div class="card mb-3" style="max-width: 18rem; height: 400px; max-height: 400px;">
+                        <div class="card-header text-center"><strong><%=vacant.title%></strong></div>
                         <div class="card-body">
-                        <h5 class="card-title"><strong> Descripción: </strong></h5>
-                        <p class="card-text"><%= (vacant.description.length > 250) 
-                            ? vacant.description.slice(0, 250) + '...'
-                            : vacant.description%></p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                          <h5 class="card-title">Descripción: </h5>
+                          <p class="card-text text-justify">
+                            <%= (vacant.description.length > 200) 
+                                    ? vacant.description.slice(0, 200) + '...'
+                                    : vacant.description%>
+                          </p>                            
                         </div>
-                        <div class="card-footer text-muted">
-                            <%=moment(vacant.createdAt).fromNow()%>
-                        </div>
-                    </div>
+                        <div class="card-footer text-center menu"><%=moment(vacant.createdAt).fromNow()%></div>
+                        <a href="#" class="btn" id="vacantInfo">
+                            Ver información...                            
+                        </a>
+                      </div>
                 </div>
-                <!-- <div class="card card-header text-center col-10 mb-4 border border-danger" style="height: 18rem; margin-bottom: 1cm;">
-                    <div class="card-header">
-                        
-                    </div>
-                    <div class="card-body">                  
-                    <p class="card-text text-justify"><strong> Descripción: </strong><br></p>
-                    <h6 class="card-title">Áreas de trabajo:</h6>
-                    <p class="card-text"></p>
-                    <a href="#" class="btn btn-primary mb-4">Go somewhere</a>                    
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted"></small>
-                    </div>
-                </div> -->
-                <div class="col-1"></div>
             
             <% }) %>
+
             </div>
+
+            <% if(pages){ %>
+                <nav aria-label="Page navigation example mt-5">
+                    <ul class="pagination pagination-lg justify-content-center">
+                     
+                    <li class="page-item <% if(current == 1){ %> disabled <% } %>">
+                        <a <% if(current != 1){ %> href="/vacants/1" <%}%> class="page-link">First Page</a>
+                    </li>
+
+                    <% var j = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if(j !== 1){ %> 
+                        <li class="page-item">
+                            <a href="" class="page-link">...</a>
+                        </li>
+                    <% } %> 
+                    
+                    <% for(; j <= (Number(current) + 4) && j <= pages; j++) {%>
+                        <% if(j == current){ %>
+                            <li class="page-item">
+                                <a href="<%=j%>" class="page-link">
+                                    <%= j %>
+                                </a>
+                            </li>                        
+                    <% } else { %>
+                        <li class="page-item">
+                            <a href="/vacants/<%=j%>" class="page-link">
+                                <%=j%> 
+                            </a>
+                        </li>
+                    <% } %> 
+
+                    <% if(j == Number(current) + 4 && j < pages) {%> 
+                        <li class="page-item">
+                            <a href="" class="page-link">...</a>
+                        </li>
+                    <% } %>
+                    <% } %> 
+                    <li class="page-item <% if(current == pages){ %> disabled <% } %> ">
+                        <a href="/vacants/<%=pages%>" class="page-link">Last Page</a>
+                    </li>
+                    
+                    </ul>
+                </nav>
+            <% } %> 
+            
+
         </div>
         <%- include('../includes/right.ejs') %> 
     </div>

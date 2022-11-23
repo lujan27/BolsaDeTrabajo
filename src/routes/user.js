@@ -5,6 +5,6 @@ const userCtrl = require('../controllers/userCtrl');
 
     router
 
-.get('/user', userCtrl.getUserHome)
+.get('/vacants/:page', userCtrl.getUserHome)
 
 module.exports = router;
