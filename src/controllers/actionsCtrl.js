@@ -1,5 +1,6 @@
 const vacantModel = require("../models/vacantModel")
 const userModel = require("../models/userModel")
+const moment = require('moment-timezone')
 
 const encrypt = require('../controllers/encryptCtrl');
 
@@ -107,8 +108,13 @@ actionsCtrl.deleteUser = async(req, res) => {
 actionsCtrl.editUser = async (req, res) => {
     var {name, lastname, phone, birth, area, username, email, password, role} = req.body;    
         password = await encrypt.encryptPassword(password);
-        await userModel.findByIdAndUpdate(req.params.id, {name, lastname, phone, birth, area, username, email, password, role})
+        let birthday = moment.tz(birth, 'America/Mexico_City');
+        await userModel.findByIdAndUpdate(req.params.id, {name, lastname, phone, birth: birthday, area, username, email, password, role})
         req.flash('success_msg', 'Usuario actualizado!')
-        res.redirect('/admin/usuarios')     
+        if(req.user.role == 3){
+            res.redirect('/admin/usuarios')
+        } else {
+            res.redirect('/profile/'+req.params.id)
+        }
 }
 module.exports = actionsCtrl;

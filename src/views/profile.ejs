@@ -9,29 +9,51 @@
         </div>
         <div class="col-8">
             <div class="container-fluid">
-                <div class="row">
+                <form action="/profile-editInfo/<%=profile._id%>?_method=PUT" method="post">
+                <div class="row">                    
                     <div class="col-6">
-                        <label class="form-control">Nombre: <%=profile.name%> </label>
-                        <label class="form-control">Teléfono: <%=profile.phone%> </label>
-                        <label class="form-control">Usuario: <%=profile.username%></label>
-                        <label class="form-control">Área: <%=profile.area%></label>
+                        <label class="form-control border border-0"><strong> Nombre: </strong> </label>
+                        <input class="form-control editInfo" name="name" value="<%=profile.name%>" placeholder="No especificado..." disabled required/>
+                        <label class="form-control border border-0"><strong> Teléfono: </strong> </label>
+                        <input class="form-control editInfo" name="phone" type="number" value="<%=profile.phone%>" placeholder="No especificado..." disabled required/>
+                        <label class="form-control border border-0"><strong> Usuario: </strong> </label>
+                        <input class="form-control editInfo" name="username" value="<%=profile.username%>" placeholder="No especificado..." disabled required/>
+                        <label class="form-control border border-0"><strong> Area: </strong> </label>
+                        <input class="form-control mb-3" value="<%=profile.area%>" placeholder="No especificado..." disabled/>
+                        <select name="area" class="form-control combo-login" id="selectInfo" disabled required>
+                            <option value="" selected="true" disabled>Área de trabajo</option>
+                              <% jobs.forEach(job => { %>
+                                <option value="<%=job.name%>"><%=job.name%></option>                  
+                              <% }) %>
+                        </select>
+                        <a class="btn btn-primary mt-3" id="btnEditInfo" style="color: white;" onclick="editInform()"> <ion-icon name="create-outline"></ion-icon> Editar</a>
+                        <button class="btn btn-success mt-3" id="btnSaveInfo" style="color: white;" hidden> <ion-icon name="save-outline"></ion-icon> Guardar</button>
+                        <a class="btn btn-danger mt-3" id="btnCancelInfo" style="color: white;" onclick="cancelInform()" hidden> <ion-icon name="close-outline"></ion-icon> Cancelar</a>
                     </div>
                     <div class="col-6">
-                        <label class="form-control">Apellidos: <%=profile.lastname%></label>
-                        <label class="form-control">Fecha de nacimiento: <%=moment(profile.birth).format('L')%></label>
-                        <label class="form-control">Correo: <%=profile.email%></label>
-                    </div>
+                        <label class="form-control border border-0"><strong> Apellidos: </strong> </label>
+                        <input class="form-control editInfo" name="lastname" value="<%=profile.lastname%>" placeholder="No especificado..." disabled required/>
+                        <label class="form-control border border-0"><strong> Fecha de nacimiento: </strong> </label>
+                        <input class="form-control" id="inputBirth" <% if(profile.birth != null){ %>  value="<%=moment(profile.birth).format('L')%>" <% } %> placeholder="No especificado..." disabled/>        
+                        <input class="form-control" type="date" name="birth" id="birthInfo" hidden required>
+                        <label class="form-control border border-0"><strong> Correo electrónico: </strong> </label>
+                        <input class="form-control editInfo" name="email" value="<%=profile.email%>" placeholder="No especificado..." disabled required/>                       
+                        <label class="form-control border border-0"><strong> Contraseña: </strong> </label>
+                        <input class="form-control editInfo" name="password" type="password" disabled required/>
+
+                    </div>                    
                 </div>
+                </form>
             </div>
-            <div class="container-fluid">
+            <div class="container-fluid mt-2">
                 <div class="row">
                     <div class="col-12">
                         <form action="/profile-presentation/<%=user._id%>?_method=PUT" method="post">
-                            <label for="userResume" class="form-control">Presentación:</label>
-                            <textarea name="presentation" class="form-control mb-2" id="userResume" cols="30" rows="10" placeholder="<% if(!profile.presentation || profile.presentation == '') {%> Añade una presentación a tu perfil <% } %>" disabled><%=profile.presentation%> </textarea>
-                            <a class="btn btn-primary" id="btnEdit" style="color: white;" onclick="editPre()"> <ion-icon name="create-outline"></ion-icon> Editar</a>
-                            <button class="btn btn-success" id="btnSave" style="color: white;" hidden> <ion-icon name="save-outline"></ion-icon> Guardar</button>
-                            <a class="btn btn-danger" id="btnCancel" style="color: white;" onclick="cancelPre()" hidden> <ion-icon name="close-outline"></ion-icon> Cancelar</a>
+                            <label for="userResume" class="form-control border border-0"><strong> Presentación: </strong></label>
+                            <textarea name="presentation" class="form-control mb-3" id="userResume" cols="30" rows="10" placeholder="<% if(!profile.presentation || profile.presentation == '') {%> Añade una presentación a tu perfil <% } %>" disabled><%=profile.presentation%> </textarea>
+                            <a class="btn btn-primary" id="btnEditPre" style="color: white;" onclick="editPresen()"> <ion-icon name="create-outline"></ion-icon> Editar</a>
+                            <button class="btn btn-success" id="btnSavePre" style="color: white;" hidden> <ion-icon name="save-outline"></ion-icon> Guardar</button>
+                            <a class="btn btn-danger" id="btnCancelPre" style="color: white;" onclick="cancelPresen()" hidden> <ion-icon name="close-outline"></ion-icon> Cancelar</a>
                         </form>
                     </div>
                 </div>

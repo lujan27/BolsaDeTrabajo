@@ -5,7 +5,7 @@ const session = require('express-session');
 const passport = require('passport');
 const path = require('path');
 const flash = require('connect-flash');
-const moment = require('moment');
+const moment = require('moment-timezone');
 moment.locale('es-mx');
 
 //Models

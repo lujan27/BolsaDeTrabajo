@@ -34,8 +34,4 @@ const indexCtrl = require('../controllers/indexCtrl');
     }
 })
 
-.get('/profile/:id', indexCtrl.userProfile)
-
-.put('/profile-presentation/:id', indexCtrl.editPresentation)
-
 module.exports = router;
