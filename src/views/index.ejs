@@ -12,9 +12,9 @@
             <label for="chk" id="lblSign" aria-hidden="true">
               Sign up
             </label>
-            <input type="text" name="username" placeholder="Nombre de usuario...">
+            <input type="text" autocomplete="new-password" name="username" placeholder="Nombre de usuario...">
             <input type="email" name="email" placeholder="Correo electronico...">
-            <input type="password" name="password" placeholder="Contraseña...">            
+            <input type="password" autocomplete="new-password" name="password" placeholder="Contraseña...">            
             <select name="role" id="">
               <option value="" selected="true" disabled>Tipo de cuenta</option>
               <option value="1">Usuario</option>
@@ -28,7 +28,7 @@
                   <% jobs.forEach(job => { %>
                     <option value="<%=job.name%>"><%=job.name%></option>                  
                   <% }) %>
-              </select>     
+              </select>
               </div>
               <div class="col-2"></div>
             </div>

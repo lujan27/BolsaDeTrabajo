@@ -39,23 +39,58 @@
                         <label class="form-control border border-0"><strong> Correo electrónico: </strong> </label>
                         <input class="form-control editInfo" name="email" value="<%=profile.email%>" placeholder="No especificado..." disabled required/>                       
                         <label class="form-control border border-0"><strong> Contraseña: </strong> </label>
-                        <input class="form-control editInfo" name="password" type="password" disabled required/>
+                        <input class="form-control editInfo" autocomplete="off" name="password" type="password" disabled required/>
 
                     </div>                    
                 </div>
                 </form>
-            </div>
-            <div class="container-fluid mt-2">
-                <div class="row">
-                    <div class="col-12">
-                        <form action="/profile-presentation/<%=user._id%>?_method=PUT" method="post">
-                            <label for="userResume" class="form-control border border-0"><strong> Presentación: </strong></label>
-                            <textarea name="presentation" class="form-control mb-3" id="userResume" cols="30" rows="10" placeholder="<% if(!profile.presentation || profile.presentation == '') {%> Añade una presentación a tu perfil <% } %>" disabled><%=profile.presentation%> </textarea>
-                            <a class="btn btn-primary" id="btnEditPre" style="color: white;" onclick="editPresen()"> <ion-icon name="create-outline"></ion-icon> Editar</a>
-                            <button class="btn btn-success" id="btnSavePre" style="color: white;" hidden> <ion-icon name="save-outline"></ion-icon> Guardar</button>
-                            <a class="btn btn-danger" id="btnCancelPre" style="color: white;" onclick="cancelPresen()" hidden> <ion-icon name="close-outline"></ion-icon> Cancelar</a>
-                        </form>
-                    </div>
+            </div>            
+        </div>
+        <div class="container-fluid mt-2">
+            <div class="row">
+                <div class="col-6">
+                    <form action="/profile-presentation/<%=user._id%>?_method=PUT" method="post">
+                        <label for="userResume" class="form-control border border-0"><strong> Presentación: </strong></label>
+                        <textarea name="presentation" class="form-control mb-3" id="userResume" cols="30" rows="10" placeholder="<% if(!profile.presentation || profile.presentation == '') {%> Añade una presentación a tu perfil <% } %>" disabled><%=profile.presentation%> </textarea>
+                        <a class="btn btn-primary" id="btnEditPre" style="color: white;" onclick="editPresen()"> <ion-icon name="create-outline"></ion-icon> Editar</a>
+                        <button class="btn btn-success" id="btnSavePre" style="color: white;" hidden> <ion-icon name="save-outline"></ion-icon> Guardar</button>
+                        <a class="btn btn-danger" id="btnCancelPre" style="color: white;" onclick="cancelPresen()" hidden> <ion-icon name="close-outline"></ion-icon> Cancelar</a>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <label class="form-control border border-0"><strong> Idiomas: </strong></label>
+                    <form action="/profile-lang/<%=user._id%>" method="post">
+                        <% if(!profile.languages || profile.languages == ''){ %>
+                            <p>No se han agregado idiomas</p> 
+                        <% } else { %>
+                            <label class="form-control border border-0" id="lblRemoveLang" hidden><strong> Seleccione el idioma que desea elminar: </strong></label>
+                            <% for(let j = 0; j<profile.languages.length; j++){ %>
+                                <label class="form-control border border-0">
+                                    <input type="radio" name="langDelete" class="radioLang" value="<%=profile.languages[j]%>" disabled hidden> <strong><%=profile.languages[j]%></strong>
+                                </label>
+                            <% } %> 
+                        <% } %> 
+                            <label class="form-control border border-0" id="lblLang" hidden><strong> Seleccione su idioma:</strong></label>
+                            <select name="language" class="form-control combo-login" id="seleLang" disabled>
+                                <option value="" selected="true" disabled>Idioma</option>
+                                    <% langs.forEach(lang => { %>
+                                        <option value="<%=lang.name%>"><%=lang.name%></option>                  
+                                    <% }) %>
+                            </select>
+                            <label class="form-control border border-0" id="lblLevel" hidden><strong> Nivel: </strong></label>
+                            <select name="level" class="form-control" id="seleLevel" hidden>
+                                <option value="Lengua madre">Lengua madre</option>
+                                <option value="Básico">Básico</option>
+                                <option value="Intermedio">Intermedio</option>
+                                <option value="Avanzado">Avanzado</option>
+                            </select>
+                        <a class="btn btn-primary mt-3" id="btnAddLang" style="color: white;" onclick="languages()"> <ion-icon name="add-circle-outline"></ion-icon> Agregar</a>
+                        <% if(!profile.languages || profile.languages != ''){ %>
+                            <a class="btn btn-warning mt-3" id="btnRemoveLang" style="color: white;" onclick="removeLanguages()"> <ion-icon name="remove-circle-outline"></ion-icon> Eliminar</a>
+                        <% } %> 
+                        <button class="btn btn-success mt-3" id="btnSaveLang" style="color: white;" hidden> <ion-icon name="save-outline"></ion-icon> Guardar</button>
+                        <a class="btn btn-danger mt-3" id="btnCancelLang" style="color: white;" onclick="cancelLanguages()" hidden> <ion-icon name="close-outline"></ion-icon> Cancelar</a>
+                    </form>
                 </div>
             </div>
         </div>

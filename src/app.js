@@ -10,6 +10,7 @@ moment.locale('es-mx');
 
 //Models
 const jobsModel = require('./models/jobsModel');
+const langModel = require('./models/langModel');
 
 //Initializations
 const app = express();
@@ -51,6 +52,12 @@ app.use(async (req, res, next) => {
     res.locals.moment = moment;
 
     res.locals.jobs = await jobsModel.aggregate([
+        {
+            '$sort': {'name': 1}
+        }
+    ])
+
+    res.locals.langs = await langModel.aggregate([
         {
             '$sort': {'name': 1}
         }

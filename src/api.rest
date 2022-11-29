@@ -3,56 +3,13 @@ POST http://localhost:5000/jobs
 Content-Type: application/json
 
 {
-    "name": "Programador"
-},
+    "name": "Mecanica"
+}
+
+###
+POST http://localhost:5000/languages
+Content-Type: application/json
+
 {
-    "name": "Desarrollador de software"
-},
-{
-    "name": "Medicina"
-},
-{
-    "name": "Enfermería"
-},
-{
-    "name": "Asesor financiero"
-},
-{
-    "name": "Recursos humanos"
-},
-{
-    "name": "Marketing"
-},
-{
-    "name": "Atención a cliente"
-},
-{
-    "name": "Profesor"
-},
-{
-    "name": "Obrero"
-},
-{
-    "name": "Arquitecto"
-},
-{
-    "name": "Cocinero"
-},
-{
-    "name": "Chef"
-},
-{
-    "name": "Mecatronica"
-},
-{
-    "name": "Capital humano"
-},
-{
-    "name": "Logística y transporte"
-},
-{
-    "name": "Mercadologo"
-},
-{
-    "name": "Contador"
+    "name": "Inglés"
 }

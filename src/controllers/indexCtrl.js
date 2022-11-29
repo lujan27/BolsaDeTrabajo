@@ -76,4 +76,40 @@ indexCtrl.editPresentation = async (req, res) => {
     req.flash('success_msg', 'Presentación actualizada')
     res.redirect('/profile/'+req.params.id)
 }
+
+indexCtrl.addLang = async (req, res) => {
+    
+    let {language, level, langDelete} = req.body;
+
+    let currentLang = await userModel.findById(req.params.id)
+    
+    console.log(langDelete);
+
+    if(langDelete){
+
+        let langsDeleted = currentLang.languages.filter(lang => lang != langDelete);
+
+        console.log('Lenguajes restantes: '+ langsDeleted);
+
+        await userModel.findByIdAndUpdate(req.params.id, {languages: langsDeleted});
+
+        req.flash('success_msg', 'Idioma eliminado')
+ 
+    }else{
+
+        var languagesBody = language + " - " + level;
+    
+        currentLang.languages.push(languagesBody);
+
+        let newLang = currentLang.languages;
+
+        await userModel.findByIdAndUpdate(req.params.id, {languages: newLang})
+
+        req.flash('success_msg', 'Idioma agregado')
+
+        console.log('Lenguaje agregado: ' + newLang);
+    }
+
+    res.redirect('/profile/'+req.params.id)
+}
 module.exports = indexCtrl;

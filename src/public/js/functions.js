@@ -22,6 +22,7 @@ $(document).ready(function() {
     });
 });
 
+//Presentation Profile
     var txtPres = document.getElementById('userResume');
     var editPre = document.getElementById('btnEditPre');
     var cancelPre = document.getElementById('btnCancelPre');
@@ -39,6 +40,7 @@ function cancelPresen(){
     txtPres.setAttribute('disabled', 'disabled')
 }
 
+//Information Profile
     var editInfo = document.getElementById('btnEditInfo');
     var cancelInfo = document.getElementById('btnCancelInfo');
     var saveInfo = document.getElementById('btnSaveInfo');
@@ -69,3 +71,62 @@ function cancelInform(){
         formInfo[j].setAttribute('disabled', 'disabled')
     }
 }
+
+//Languages Profile
+
+    var addLang = document.getElementById('btnAddLang');
+    var saveLang = document.getElementById('btnSaveLang');
+    var cancelLang = document.getElementById('btnCancelLang');
+    var seleLang = document.getElementById('seleLang');
+    var lblLevel = document.getElementById('lblLevel');
+    var seleLevel = document.getElementById('seleLevel');
+    var removeLang = document.getElementById('btnRemoveLang');
+    var radioLang = document.getElementsByClassName('radioLang');
+    var lengthRadio = radioLang.length;
+    var lblLang = document.getElementById('lblLang');
+    var lblRemoveLang = document.getElementById('lblRemoveLang');
+
+    function languages(){
+        addLang.setAttribute('hidden', 'hidden')
+        seleLang.removeAttribute('disabled', 'disabled')
+        seleLang.setAttribute('required', 'required')
+        lblLevel.removeAttribute('hidden', 'hidden')
+        seleLevel.removeAttribute('hidden', 'hidden')
+        seleLevel.setAttribute('required', 'required')
+        saveLang.removeAttribute('hidden', 'hidden')
+        cancelLang.removeAttribute('hidden', 'hidden')
+        removeLang.setAttribute('hidden', 'hidden')
+        lblLang.removeAttribute('hidden', 'hidden')
+    }
+
+    function cancelLanguages(){
+        seleLang.setAttribute('disabled', 'disabled')
+        lblLevel.setAttribute('hidden', 'hidden')
+        seleLevel.setAttribute('hidden', 'hidden')
+        seleLang.removeAttribute('required', 'required')
+        seleLevel.removeAttribute('required', 'required')
+        saveLang.setAttribute('hidden', 'hidden')
+        cancelLang.setAttribute('hidden', 'hidden')
+        removeLang.removeAttribute('hidden', 'hidden')
+        addLang.removeAttribute('hidden', 'hidden')
+        lblLang.setAttribute('hidden', 'hidden')
+        lblRemoveLang.setAttribute('hidden', 'hidden')
+        for(let k = 0; k<lengthRadio; k++){
+            radioLang[k].setAttribute('disabled', 'disabled')
+            radioLang[k].setAttribute('hidden', 'hidden')
+            radioLang[k].removeAttribute('required', 'required')
+        }
+    }
+
+    function removeLanguages(){
+        lblRemoveLang.removeAttribute('hidden', 'hidden')
+        removeLang.setAttribute('hidden', 'hidden')
+        addLang.setAttribute('hidden', 'hidden')
+        cancelLang.removeAttribute('hidden', 'hidden')
+        saveLang.removeAttribute('hidden', 'hidden')
+        for(let l = 0; l<lengthRadio; l++){
+            radioLang[l].removeAttribute('disabled', 'disabled')
+            radioLang[l].removeAttribute('hidden', 'hidden')
+            radioLang[l].setAttribute('required', 'required')
+        }
+    }

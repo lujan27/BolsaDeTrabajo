@@ -12,6 +12,7 @@ const userSchema = new Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     presentation: {type: String},
+    languages: {type: Array},
     role: {type: Number, default: 1}
 }, {
     versionKey: false

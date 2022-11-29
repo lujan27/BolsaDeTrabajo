@@ -15,4 +15,6 @@ const actionsCtrl = require('../controllers/actionsCtrl');
 
 .put('/profile-editInfo/:id', actionsCtrl.editUser)
 
+.post('/profile-lang/:id', indexCtrl.addLang)
+
 module.exports = router;
