@@ -46,7 +46,7 @@
                 </form>
             </div>            
         </div>
-        <div class="container-fluid mt-2">
+        <div class="container-fluid mt-5">
             <div class="row">
                 <div class="col-6">
                     <form action="/profile-presentation/<%=user._id%>?_method=PUT" method="post">
@@ -94,8 +94,190 @@
                 </div>
             </div>
         </div>
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <div class="col-6">
+                    <label class="form-control border border-0"><strong> Experiencias profesionales: </strong></label>
+                    <% if(!exp || exp == ''){ %>
+                        <p>Aun no ha registrado ninguna experiencia</p>
+                    <% } else {%>
+                        <% exp.forEach((exps, i) => { %>
+                            <details open>
+                            <summary><b> <%=exps.positionExp%> </b></summary>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h6 class="mt-2 text-muted"><%=exps.enterprise%> </h6>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn border" data-bs-toggle="modal" data-bs-target="#editExp-<%=i%>">
+                                        <ion-icon name="pencil-outline"></ion-icon> Editar
+                                    </button>                                    
+                                </div>
+                            </div>
+                            
+                            <p class="mt-2"><%=exps.desJob%> </p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <!-- Button trigger modal delete exp -->
+                                    <button type="button" class="btn border" data-bs-toggle="modal" data-bs-target="#deleteExp-<%=i%>">
+                                        <ion-icon name="trash-outline"></ion-icon> Borrar
+                                    </button>                                    
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-right font-monospace fw-semibold">
+                                        <%=moment(exps.monthStart).format("MMMM YYYY"); %> - 
+                                        <% if(exps.actualJob==true){ %> Actualmente <% } else { %> <%=moment(exps.monthEnd).format("MMMM YYYY")%>  <% } %> 
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            </details>                        
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteExp-<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar <%=exps.positionExp%> </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <h5>Usted esta a punto de eliminar la siguiente experiencia: <b><%=exps.positionExp%> </b></h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <form action="/profile-deleteExp/<%=exps._id%>?_method=DELETE" method="post">
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Edit Exp-->
+                            <div class="modal fade" id="editExp-<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">                            
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar <%=exps.positionExp %>: </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <form action="/profile-editExp/<%=exps._id%>?_method=PUT" method="post">
+                                        <label class="form-control border border-0"><strong> Nombre de la empresa: </strong></label>
+                                        <input type="text" placeholder="Empresa..." name="enterprise" class="form-control" value="<%=exps.enterprise%>" required>
+                                        <label class="form-control border border-0"><strong> Cargo: </strong></label>
+                                        <input type="text" placeholder="Cargo..." name="positionExp" class="form-control" value="<%=exps.positionExp%>" required>
+                                        <label class="form-control border border-0">
+                                            <strong> ¿Sigue trabajando aquí? </strong>
+                                            <input type="radio" name="actualJob" id="isWork-<%=exps._id%>" value="Si" required> Si
+                                            <input type="radio" name="actualJob" id="notWork-<%=exps._id%>" value="No" required> No
+                                        </label>
+                                        <div class="row pl-3 pr-3">
+                                            <input type="month" name="monthStart" class="form-control" required>
+                                        </div>
+                                        <label class="form-control border border-0"><strong> Fecha de conclusión: </strong></label>
+                                        <div class="row pl-3 pr-3">
+                                            <input type="month" name="monthEnd" class="form-control" id="monthEnd-<%=exps._id%>" required>                                    
+                                        </div>
+                                        <label class="form-control border border-0"><strong> Cuentenos sobre este empleo: </strong></label>
+                                        <textarea class="form-control" name="desJob" cols="30" rows="10" required><%=exps.desJob%></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                            
+                        <% }) %> 
+                    <% } %>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#experiences">
+                        Agregar experiencia
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="experiences" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">                            
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar experiencia</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>                            
+                            <div class="modal-body">
+                            <form action="/profile-exp" method="post">
+                                <label class="form-control border border-0"><strong> Nombre de la empresa: </strong></label>
+                                <input type="text" placeholder="Empresa..." name="enterprise" class="form-control">
+                                <label class="form-control border border-0"><strong> Cargo: </strong></label>
+                                <input type="text" placeholder="Cargo..." name="positionExp" class="form-control">
+                                <label class="form-control border border-0"><strong> ¿Sigue trabajando aquí? </strong></label>
+                                <select name="actualJob" id="seleActualJob" class="form-control" onchange="valorSele()">
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="Si">Si</option>
+                                    <option value="No">No</option>
+                                </select>
+                                <label class="form-control border border-0"><strong> Fecha de inicio: </strong></label>
+                                <div class="row pl-3 pr-3">
+                                    <input type="month" name="monthStart" class="form-control">                                    
+                                </div>
+                                <label class="form-control border border-0"><strong> Fecha de conclusión: </strong></label>
+                                <div class="row pl-3 pr-3">
+                                    <input type="month" name="monthEnd" class="form-control" id="monthEnd">                                    
+                                </div>
+                                <label class="form-control border border-0"><strong> Cuentenos sobre este empleo: </strong></label>
+                                <textarea class="form-control" name="desJob" id="" cols="30" rows="10"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-6">
+                    <label class="form-control border border-0"><strong> Estudios: </strong></label>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <%- include('includes/scripts.ejs') %>
 <script src="/js/functions.js"></script>
+<script>
+
+    var monthEnd = document.getElementById('monthEnd');    
+    function valorSele(){
+        var seleActualJob = document.getElementById('seleActualJob');
+        var option = seleActualJob.options[seleActualJob.selectedIndex].text;
+        
+        if(option == 'Si'){
+            monthEnd.setAttribute('disabled', 'disabled');
+        } else if(option == 'No'){
+            monthEnd.removeAttribute('disabled', 'disabled');
+        }
+    }
+</script>
+
+<% exp.forEach(expe =>{ %>
+    <script>        
+        $(document).ready(function() {
+            $('#isWork-<%=expe._id%>').click(function() {
+                $('#monthEnd-<%=expe._id%>').prop('disabled', true);
+                $('#monthEnd-<%=expe._id%>').prop('required', false);
+            });
+
+            $('#notWork-<%=expe._id%>').click(function (){
+                $('#monthEnd-<%=expe._id%>').prop('disabled', false);
+                $('#monthEnd-<%=expe._id%>').prop('required', true);
+            });
+        })
+    </script>
+<% }) %> 

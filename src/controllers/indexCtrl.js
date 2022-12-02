@@ -1,6 +1,9 @@
 const indexCtrl = {}
 
+const experienceModel = require('../models/experienceModel');
 const userModel = require('../models/userModel');
+
+const moment = require('moment-timezone')
 
 indexCtrl.sessionOut = (req, res) => {
     req.session.destroy();
@@ -63,9 +66,12 @@ indexCtrl.userProfile = async (req, res) => {
 
     const profile = await userModel.findById(req.params.id);
 
+    const exp = await experienceModel.find({userID: req.user._id});
+
     res.render('profile', {
         doc_title: 'Perfil de ' + req.user.username,
-        profile
+        profile,
+        exp
     })
 }
 
@@ -112,4 +118,81 @@ indexCtrl.addLang = async (req, res) => {
 
     res.redirect('/profile/'+req.params.id)
 }
+
+indexCtrl.addExp = async (req, res) => {
+    const { enterprise, positionExp, actualJob, monthStart, monthEnd, desJob} = req.body;
+
+    var formatMonthStart = moment.tz(monthStart, 'America/Mexico_City');
+    var formatMonthEnd = moment.tz(monthEnd, 'America/Mexico_City');
+
+    var job
+    if(actualJob == 'Si'){
+        job = true
+    } else {
+        job = false
+    }
+
+    const newExp = experienceModel({
+        enterprise,
+        positionExp,
+        actualJob: job,
+        monthStart: formatMonthStart,
+        monthEnd: formatMonthEnd,
+        desJob,
+        userID: req.user._id
+    });
+
+    await newExp.save();
+
+    req.flash('success_msg', 'Experiencia agregada!');
+    res.redirect('/profile/'+req.user._id);
+}
+
+indexCtrl.editExp = async (req, res) => {
+    const {enterprise, positionExp, actualJob, monthStart, monthEnd, desJob} = req.body;
+
+    var job;
+    if(actualJob == 'Si'){
+        job = true;
+    } else {
+        job = false;
+    }
+
+    const formatMonthStart = moment.tz(monthStart, 'America/Mexico_City');
+
+    if(monthEnd){
+        const formatMonthEnd = moment.tz(monthEnd, 'America/Mexico_City');
+
+        await experienceModel.findByIdAndUpdate(req.params.id, {
+            enterprise,
+            positionExp,
+            actualJob: job,
+            monthStart: formatMonthStart,
+            monthEnd: formatMonthEnd,
+            desJob,
+            userID: req.user._id
+        });
+    } else {
+        await experienceModel.findByIdAndUpdate(req.params.id, {
+            enterprise,
+            positionExp,
+            actualJob: job,
+            monthStart: formatMonthStart,
+            monthEnd: Date.now(),
+            desJob,
+            userID: req.user._id
+        });
+    }
+
+    req.flash('success_msg', 'Experiencia '+positionExp+' actualizada!');
+    res.redirect('/profile/'+req.user._id);
+}
+
+indexCtrl.deleteExp = async (req, res) => {
+    await experienceModel.findByIdAndDelete(req.params.id);
+
+    req.flash('success_msg', 'Experiencia eliminada!');
+    res.redirect('/profile/'+req.user._id);
+}
+
 module.exports = indexCtrl;

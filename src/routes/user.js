@@ -17,4 +17,10 @@ const actionsCtrl = require('../controllers/actionsCtrl');
 
 .post('/profile-lang/:id', indexCtrl.addLang)
 
+.post('/profile-exp', indexCtrl.addExp)
+
+.put('/profile-editExp/:id', indexCtrl.editExp)
+
+.delete('/profile-deleteExp/:id', indexCtrl.deleteExp)
+
 module.exports = router;
