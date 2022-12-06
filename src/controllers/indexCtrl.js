@@ -3,7 +3,8 @@ const indexCtrl = {}
 const experienceModel = require('../models/experienceModel');
 const userModel = require('../models/userModel');
 
-const moment = require('moment-timezone')
+const moment = require('moment-timezone');
+const schoolarModel = require('../models/schoolarModel');
 
 indexCtrl.sessionOut = (req, res) => {
     req.session.destroy();
@@ -195,4 +196,48 @@ indexCtrl.deleteExp = async (req, res) => {
     res.redirect('/profile/'+req.user._id);
 }
 
+indexCtrl.addStudy = async (req, res) => {
+    var { nameSchool, speciality, studyLevel, location, actualStudy, dateStart, dateEnd} = req.body;
+
+    var study;
+    if(actualStudy == 'Si'){
+        study = true
+    } else {
+        study = false
+    }
+
+    var formatStart = moment.tz(dateStart, 'America/Mexico_City');
+    if(dateEnd){
+        var formatEnd = moment.tz(dateEnd, 'America/Mexico_City');
+
+        const newStudy = schoolarModel({
+            nameSchool,
+            speciality,
+            studyLevel,
+            location,
+            actualStudy: study,
+            dateStart: formatStart,
+            dateEnd: formatEnd,
+            userStudyID: req.user._id
+        });
+
+        await newStudy.save();
+    } else {
+        const newStudyExist = schoolarModel({
+            nameSchool,
+            speciality,
+            studyLevel,
+            location,
+            actualStudy: study,
+            dateStart: formatStart,
+            dateEnd: Date.now(),
+            userStudyID: req.user._id
+        });
+
+        await newStudyExist.save();
+    }
+
+    req.flash('success_msg', 'Estudios registrados!');
+    res.redirect('/profile/'+req.user._id);
+}
 module.exports = indexCtrl;

@@ -20,7 +20,7 @@
                         <input class="form-control editInfo" name="username" value="<%=profile.username%>" placeholder="No especificado..." disabled required/>
                         <label class="form-control border border-0"><strong> Area: </strong> </label>
                         <input class="form-control mb-3" value="<%=profile.area%>" placeholder="No especificado..." disabled/>
-                        <select name="area" class="form-control combo-login" id="selectInfo" disabled required>
+                        <select name="area" class="form-control combo-login" id="selectInfo" style="width: 100%;" disabled required>
                             <option value="" selected="true" disabled>Área de trabajo</option>
                               <% jobs.forEach(job => { %>
                                 <option value="<%=job.name%>"><%=job.name%></option>                  
@@ -211,25 +211,25 @@
                             <div class="modal-body">
                             <form action="/profile-exp" method="post">
                                 <label class="form-control border border-0"><strong> Nombre de la empresa: </strong></label>
-                                <input type="text" placeholder="Empresa..." name="enterprise" class="form-control">
+                                <input type="text" placeholder="Empresa..." name="enterprise" class="form-control" required>
                                 <label class="form-control border border-0"><strong> Cargo: </strong></label>
-                                <input type="text" placeholder="Cargo..." name="positionExp" class="form-control">
+                                <input type="text" placeholder="Cargo..." name="positionExp" class="form-control" required>
                                 <label class="form-control border border-0"><strong> ¿Sigue trabajando aquí? </strong></label>
-                                <select name="actualJob" id="seleActualJob" class="form-control" onchange="valorSele()">
+                                <select name="actualJob" id="seleActualJob" class="form-control" onchange="valorSele()" required>
                                     <option value="" selected disabled>Seleccione una opción</option>
                                     <option value="Si">Si</option>
                                     <option value="No">No</option>
                                 </select>
                                 <label class="form-control border border-0"><strong> Fecha de inicio: </strong></label>
                                 <div class="row pl-3 pr-3">
-                                    <input type="month" name="monthStart" class="form-control">                                    
+                                    <input type="month" name="monthStart" class="form-control" required>                                    
                                 </div>
                                 <label class="form-control border border-0"><strong> Fecha de conclusión: </strong></label>
                                 <div class="row pl-3 pr-3">
-                                    <input type="month" name="monthEnd" class="form-control" id="monthEnd">                                    
+                                    <input type="month" name="monthEnd" class="form-control" id="monthEnd" required>                                    
                                 </div>
                                 <label class="form-control border border-0"><strong> Cuentenos sobre este empleo: </strong></label>
-                                <textarea class="form-control" name="desJob" id="" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" name="desJob" id="" cols="30" rows="10" required></textarea>
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -243,6 +243,67 @@
                 </div>
                 <div class="col-6">
                     <label class="form-control border border-0"><strong> Estudios: </strong></label>
+                    
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#school">
+                        Agregar estudios
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="school" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">                            
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar estudios</h1>
+                                <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+                                </div>                            
+                                <div class="modal-body">
+                                <form action="/profile-studies" method="post">
+                                    <label class="form-control border border-0"><strong> Nombre de la institución: </strong></label>
+                                    <input type="text" name="nameSchool" class="form-control" placeholder="Nombre de la institución..." required>
+                                    <label class="form-control border border-0"><strong> Especialidad: </strong></label>
+                                    <select name="speciality" class="combo-login" style="width: 100%" required>
+                                        <option value="" selected="true" disabled>Seleccione su especialidad</option>
+                                        <% jobs.forEach(job => { %>
+                                            <option value="<%=job.name%>"><%=job.name%></option>                  
+                                        <% }) %>
+                                    </select>
+                                    <label class="form-control border border-0"><strong> Nivel de estudios: </strong></label>
+                                    <select name="studyLevel" class="combo-login" style="width: 100%" required>
+                                        <option value="" selected="true" disabled>Seleccione el nivel de estudios</option>
+                                        <option value="Educación Primaria">Educación Primaria</option>
+                                        <option value="Educación Secundaria">Educación Secundaria</option>
+                                        <option value="Educación Media Superior (Preparatoria)">Educación Media Superior (Preparatoria)</option>
+                                        <option value="Técnico Superior Universitario">Técnico Superior Universitario</option>
+                                        <option value="Ingeniería">Ingeniería</option>
+                                        <option value="Maestría">Maestría</option>
+                                        <option value="Doctorado">Doctorado</option>
+                                    </select>
+                                    <label class="form-control border border-0"><strong> Ubicación: </strong></label>
+                                    <input type="text" name="location" class="form-control" placeholder="Ubicación..." required>
+                                    <label class="form-control border border-0"><strong> ¿Sigue estudiando aquí? </strong></label>
+                                    <select name="actualStudy" id="seleActualStudy" class="form-control" onchange="valorSeleStudy()" required>
+                                        <option value="" selected disabled>Seleccione una opción</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <label class="form-control border border-0"><strong> Fecha de inicio: </strong></label>
+                                    <div class="row pl-3 pr-3">
+                                        <input type="month" name="dateStart" class="form-control" required>                                    
+                                    </div>
+                                    <label class="form-control border border-0"><strong> Fecha de conclusión: </strong></label>
+                                    <div class="row pl-3 pr-3">
+                                        <input type="month" name="dateEnd" id="dateEnd" class="form-control" required>                                    
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>                   
                 </div>
             </div>
         </div>
@@ -260,8 +321,24 @@
         
         if(option == 'Si'){
             monthEnd.setAttribute('disabled', 'disabled');
+            monthEnd.removeAttribute('required', 'required');
         } else if(option == 'No'){
             monthEnd.removeAttribute('disabled', 'disabled');
+            monthEnd.setAttribute('required', 'required');
+        }
+    }
+
+    var dateEnd = document.getElementById('dateEnd');    
+    function valorSeleStudy(){
+        var seleActualStudy = document.getElementById('seleActualStudy');
+        var optionStudy = seleActualStudy.options[seleActualStudy.selectedIndex].text;
+        
+        if(optionStudy == 'Si'){
+            dateEnd.setAttribute('disabled', 'disabled');
+            dateEnd.removeAttribute('required', 'required');
+        } else if(optionStudy == 'No'){
+            dateEnd.removeAttribute('disabled', 'disabled');
+            dateEnd.setAttribute('required', 'required');
         }
     }
 </script>

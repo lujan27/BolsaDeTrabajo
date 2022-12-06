@@ -8,7 +8,7 @@ $(document).ready(function() {
     $('.combo-login').select2({
         width: "resolve"
     })
-})
+});
 
 $(document).ready(function() {
     $('.js-example-basic-single').select2({

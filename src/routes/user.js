@@ -23,4 +23,6 @@ const actionsCtrl = require('../controllers/actionsCtrl');
 
 .delete('/profile-deleteExp/:id', indexCtrl.deleteExp)
 
+.post('/profile-studies', indexCtrl.addStudy)
+
 module.exports = router;
