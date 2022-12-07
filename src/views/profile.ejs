@@ -106,7 +106,7 @@
                             <summary><b> <%=exps.positionExp%> </b></summary>
                             <div class="row">
                                 <div class="col-6">
-                                    <h6 class="mt-2 text-muted"><%=exps.enterprise%> </h6>
+                                    <h6 class="mt-2 text-muted"><ion-icon name="business-outline"></ion-icon> <%=exps.enterprise%> </h6>
                                 </div>
                                 <div class="col-6 text-right">
                                     <!-- Button trigger modal -->
@@ -117,7 +117,7 @@
                             </div>
                             
                             <p class="mt-2"><%=exps.desJob%> </p>
-                            <div class="row">
+                            <div class="row mb-3">
                                 <div class="col-6">
                                     <!-- Button trigger modal delete exp -->
                                     <button type="button" class="btn border" data-bs-toggle="modal" data-bs-target="#deleteExp-<%=i%>">
@@ -126,13 +126,14 @@
                                 </div>
                                 <div class="col-6">
                                     <p class="text-right font-monospace fw-semibold">
+                                        <ion-icon name="time-outline"></ion-icon>
                                         <%=moment(exps.monthStart).format("MMMM YYYY"); %> - 
                                         <% if(exps.actualJob==true){ %> Actualmente <% } else { %> <%=moment(exps.monthEnd).format("MMMM YYYY")%>  <% } %> 
                                     </p>
                                 </div>
                             </div>
                             
-                            </details>                        
+                            </details>
                             
                             <!-- Modal -->
                             <div class="modal fade" id="deleteExp-<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -243,7 +244,24 @@
                 </div>
                 <div class="col-6">
                     <label class="form-control border border-0"><strong> Estudios: </strong></label>
-                    
+                    <% study.forEach(studies => { %>
+                        <% if(!studies.nameSchool || studies.nameSchool == ''){ %>
+                            <p>No ha agregado sus estudios.</p>
+                        <% } else { %> 
+                    <details open>
+                        <summary class="mb-3 fw-bold"> <ion-icon name="school-outline"></ion-icon> <%=studies.nameSchool%> </summary>
+                        <p class="fst-italic"><ion-icon name="briefcase-outline"></ion-icon> Especialidad: <%=studies.speciality%> </p>
+                        <p><ion-icon name="stats-chart-outline"></ion-icon> Nivel de estudios: <%=studies.studyLevel%> </p>
+                        <p><ion-icon name="location-outline"></ion-icon> Ubicación: <%=studies.location%> </p>
+                        <p class="text-right font-monospace fw-semibold">
+                            <ion-icon name="time-outline"></ion-icon>
+                            <%=moment(studies.dateStart).format("MMMM YYYY"); %> - 
+                            <% if(studies.actualStudy==true){ %> Actualmente <% } else { %> <%=moment(studies.dateEnd).format("MMMM YYYY")%>  <% } %> 
+                        </p>
+                    </details>
+                        <% } %> 
+                    <% }) %> 
+
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#school">
                         Agregar estudios

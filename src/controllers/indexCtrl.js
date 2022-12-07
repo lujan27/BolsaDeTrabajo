@@ -69,10 +69,13 @@ indexCtrl.userProfile = async (req, res) => {
 
     const exp = await experienceModel.find({userID: req.user._id});
 
+    const study = await schoolarModel.find({userStudyID: req.user._id});
+
     res.render('profile', {
         doc_title: 'Perfil de ' + req.user.username,
         profile,
-        exp
+        exp,
+        study
     })
 }
 
