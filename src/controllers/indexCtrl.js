@@ -243,4 +243,51 @@ indexCtrl.addStudy = async (req, res) => {
     req.flash('success_msg', 'Estudios registrados!');
     res.redirect('/profile/'+req.user._id);
 }
+
+indexCtrl.editStudy = async (req, res) => {
+    var { nameSchool, speciality, studyLevel, location, actualStudy, dateStart, dateEnd} = req.body;
+
+    var study;
+    if(actualStudy == 'Si'){
+        study = true
+    } else {
+        study = false
+    }
+
+    var formatStart = moment.tz(dateStart, 'America/Mexico_City');
+    if(dateEnd){
+        var formatEnd = moment.tz(dateEnd, 'America/Mexico_City');
+        await schoolarModel.findByIdAndUpdate(req.params.id, {
+            nameSchool,
+            speciality,
+            studyLevel,
+            location,
+            actualStudy: study,
+            dateStart: formatStart,
+            dateEnd: formatEnd,
+            userStudyID: req.user._id
+        });
+    } else {
+        await schoolarModel.findByIdAndUpdate(req.params.id, {
+            nameSchool,
+            speciality,
+            studyLevel,
+            location,
+            actualStudy: study,
+            dateStart: formatStart,
+            dateEnd: Date.now(),
+            userStudyID: req.user._id
+        })
+    }
+
+    req.flash('success_msg', 'Historial escolar: '+nameSchool+' actualizado!');
+    res.redirect('/profile/'+req.user._id);
+}
+
+indexCtrl.deleteStudy = async (req, res) => {
+    await schoolarModel.findByIdAndDelete(req.params.id);
+
+    req.flash('success_msg', 'Historial escolar eliminado!');
+    res.redirect('/profile/'+req.user._id);
+}
 module.exports = indexCtrl;

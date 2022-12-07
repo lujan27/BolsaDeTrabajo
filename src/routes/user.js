@@ -25,4 +25,8 @@ const actionsCtrl = require('../controllers/actionsCtrl');
 
 .post('/profile-studies', indexCtrl.addStudy)
 
+.put('/profile-editStudy/:id', indexCtrl.editStudy)
+
+.delete('/profile-deleteStudy/:id', indexCtrl.deleteStudy)
+
 module.exports = router;

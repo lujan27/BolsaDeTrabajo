@@ -6,6 +6,9 @@
     <div class="row">
         <div class="col-4">
 
+            <p class="fw-semibold"><%=user.name%></p>
+            <p class="fw-light"><%=user.area%></p>
+            <p><%=user.phone%></p>
         </div>
         <div class="col-8">
             <div class="container-fluid">
@@ -112,7 +115,7 @@
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn border" data-bs-toggle="modal" data-bs-target="#editExp-<%=i%>">
                                         <ion-icon name="pencil-outline"></ion-icon> Editar
-                                    </button>                                    
+                                    </button>
                                 </div>
                             </div>
                             
@@ -122,7 +125,7 @@
                                     <!-- Button trigger modal delete exp -->
                                     <button type="button" class="btn border" data-bs-toggle="modal" data-bs-target="#deleteExp-<%=i%>">
                                         <ion-icon name="trash-outline"></ion-icon> Borrar
-                                    </button>                                    
+                                    </button>
                                 </div>
                                 <div class="col-6">
                                     <p class="text-right font-monospace fw-semibold">
@@ -135,7 +138,7 @@
                             
                             </details>
                             
-                            <!-- Modal -->
+                            <!-- Modal delete Exp -->
                             <div class="modal fade" id="deleteExp-<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -244,30 +247,125 @@
                 </div>
                 <div class="col-6">
                     <label class="form-control border border-0"><strong> Estudios: </strong></label>
-                    <% study.forEach(studies => { %>
-                        <% if(!studies.nameSchool || studies.nameSchool == ''){ %>
-                            <p>No ha agregado sus estudios.</p>
-                        <% } else { %> 
-                    <details open>
-                        <summary class="mb-3 fw-bold"> <ion-icon name="school-outline"></ion-icon> <%=studies.nameSchool%> </summary>
-                        <p class="fst-italic"><ion-icon name="briefcase-outline"></ion-icon> Especialidad: <%=studies.speciality%> </p>
-                        <p><ion-icon name="stats-chart-outline"></ion-icon> Nivel de estudios: <%=studies.studyLevel%> </p>
-                        <p><ion-icon name="location-outline"></ion-icon> Ubicación: <%=studies.location%> </p>
-                        <p class="text-right font-monospace fw-semibold">
-                            <ion-icon name="time-outline"></ion-icon>
-                            <%=moment(studies.dateStart).format("MMMM YYYY"); %> - 
-                            <% if(studies.actualStudy==true){ %> Actualmente <% } else { %> <%=moment(studies.dateEnd).format("MMMM YYYY")%>  <% } %> 
-                        </p>
-                    </details>
-                        <% } %> 
-                    <% }) %> 
+                    <% if(!study || study == ''){ %>
+                        <p>No ha agregado sus estudios.</p>
+                    <% } else { %> 
+                        <% study.forEach((studies, j) => { %>        
+                        <details open>
+                            <summary class="mb-3 fw-bold"> <ion-icon name="school-outline"></ion-icon> <%=studies.nameSchool%> </summary>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="fst-italic"><ion-icon name="briefcase-outline"></ion-icon> Especialidad: <%=studies.speciality%> </p>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <!-- Button trigger modal edit study -->
+                                    <button type="button" class="btn border" data-bs-toggle="modal" data-bs-target="#editStudy-<%=j%>">
+                                        <ion-icon name="create-outline"></ion-icon> Editar
+                                    </button>
+                                </div>
+                            </div>                            
+                            <p><ion-icon name="stats-chart-outline"></ion-icon> Nivel de estudios: <%=studies.studyLevel%> </p>
+                            <p><ion-icon name="location-outline"></ion-icon> Ubicación: <%=studies.location%> </p>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <!-- Button trigger modal delete study -->
+                                    <button type="button" class="btn border" data-bs-toggle="modal" data-bs-target="#deleteStudy-<%=j%>">
+                                        <ion-icon name="trash-bin-outline"></ion-icon> Borrar
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <p class="text-right font-monospace fw-semibold">
+                                        <ion-icon name="time-outline"></ion-icon>
+                                        <%=moment(studies.dateStart).format("MMMM YYYY"); %> - 
+                                        <% if(studies.actualStudy==true){ %> Actualmente <% } else { %> <%=moment(studies.dateEnd).format("MMMM YYYY")%>  <% } %> 
+                                    </p>
+                                </div>
+                            </div>                            
+                        </details>
 
-                    <!-- Button trigger modal -->
+                        <!-- Modal delete Exp -->
+                        <div class="modal fade" id="deleteStudy-<%=j%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Eliminar historial académico: </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                <h5>Usted esta a punto de eliminar el siguiente historial académico: <b><%=studies.nameSchool%> </b></h5>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <form action="/profile-deleteStudy/<%=studies._id%>?_method=DELETE" method="post">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </form>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal edit study -->
+                        <div class="modal fade" id="editStudy-<%=j%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">                            
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar: <%=studies.nameSchool%> </h1>
+                                    <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+                                    </div>                            
+                                    <div class="modal-body">
+                                    <form action="/profile-editStudy/<%=studies._id%>?_method=PUT" method="post">
+                                        <label class="form-control border border-0"><strong> Nombre de la institución: </strong></label>
+                                        <input type="text" name="nameSchool" class="form-control" placeholder="Nombre de la institución..." value="<%=studies.nameSchool%>" required>
+                                        <label class="form-control border border-0"><strong> Especialidad: </strong></label>
+                                        <select name="speciality" class="combo-login" style="width: 100%" required>
+                                            <option value="<%=studies.speciality%>" selected="true"><%=studies.speciality%></option>
+                                            <% jobs.forEach(job => { %>
+                                                <option value="<%=job.name%>"><%=job.name%></option>                  
+                                            <% }) %>
+                                        </select>
+                                        <label class="form-control border border-0"><strong> Nivel de estudios: </strong></label>
+                                        <select name="studyLevel" class="combo-login" style="width: 100%" required>
+                                            <option value="<%=studies.studyLevel%>" selected="true"><%=studies.studyLevel%></option>
+                                            <option value="Educación Primaria">Educación Primaria</option>
+                                            <option value="Educación Secundaria">Educación Secundaria</option>
+                                            <option value="Educación Media Superior (Preparatoria)">Educación Media Superior (Preparatoria)</option>
+                                            <option value="Técnico Superior Universitario">Técnico Superior Universitario</option>
+                                            <option value="Ingeniería">Ingeniería</option>
+                                            <option value="Maestría">Maestría</option>
+                                            <option value="Doctorado">Doctorado</option>
+                                        </select>
+                                        <label class="form-control border border-0"><strong> Ubicación: </strong></label>
+                                        <input type="text" name="location" class="form-control" placeholder="Ubicación..." value="<%=studies.location%>" required>
+                                        <label class="form-control border border-0">
+                                            <strong> ¿Sigue estudiando aquí? </strong>
+                                            <input type="radio" name="actualStudy" id="isStudy-<%=studies._id%>" value="Si" required> Si
+                                            <input type="radio" name="actualStudy" id="notStudy-<%=studies._id%>" value="No" required> No
+                                        </label>
+                                        <label class="form-control border border-0"><strong> Fecha de inicio: </strong></label>
+                                        <div class="row pl-3 pr-3">
+                                            <input type="month" name="dateStart" class="form-control" required>                                    
+                                        </div>
+                                        <label class="form-control border border-0"><strong> Fecha de conclusión: </strong></label>
+                                        <div class="row pl-3 pr-3">
+                                            <input type="month" name="dateEnd" id="dateEnd-<%=studies._id%>" class="form-control" required>                                    
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> 
+                        <% }) %> 
+                    <% } %> 
+                    <!-- Button trigger modal add study -->
                     <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#school">
                         Agregar estudios
                     </button>
                     
-                    <!-- Modal -->
+                    <!-- Modal add study -->
                     <div class="modal fade" id="school" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">                            
@@ -372,6 +470,22 @@
             $('#notWork-<%=expe._id%>').click(function (){
                 $('#monthEnd-<%=expe._id%>').prop('disabled', false);
                 $('#monthEnd-<%=expe._id%>').prop('required', true);
+            });
+        })
+    </script>
+<% }) %>
+
+<% study.forEach(studi =>{ %>
+    <script>        
+        $(document).ready(function() {
+            $('#isStudy-<%=studi._id%>').click(function() {
+                $('#dateEnd-<%=studi._id%>').prop('disabled', true);
+                $('#dateEnd-<%=studi._id%>').prop('required', false);
+            });
+
+            $('#notStudy-<%=studi._id%>').click(function (){
+                $('#dateEnd-<%=studi._id%>').prop('disabled', false);
+                $('#dateEnd-<%=studi._id%>').prop('required', true);
             });
         })
     </script>
