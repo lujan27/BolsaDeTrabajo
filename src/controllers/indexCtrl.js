@@ -5,6 +5,7 @@ const userModel = require('../models/userModel');
 
 const moment = require('moment-timezone');
 const schoolarModel = require('../models/schoolarModel');
+const imgProfileModel = require('../models/imgProfileModel');
 
 indexCtrl.sessionOut = (req, res) => {
     req.session.destroy();
@@ -71,11 +72,14 @@ indexCtrl.userProfile = async (req, res) => {
 
     const study = await schoolarModel.find({userStudyID: req.user._id});
 
+    const imgProfile = await imgProfileModel.findOne({userprofile: req.user._id});    
+
     res.render('profile', {
         doc_title: 'Perfil de ' + req.user.username,
         profile,
         exp,
-        study
+        study,
+        imgProfile
     })
 }
 

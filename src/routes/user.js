@@ -29,4 +29,10 @@ const actionsCtrl = require('../controllers/actionsCtrl');
 
 .delete('/profile-deleteStudy/:id', indexCtrl.deleteStudy)
 
+.post('/upload', userCtrl.addImg)
+
+.put('/updateImg/:id', userCtrl.updateImg)
+
+.delete('/deleteImg/:id', userCtrl.deleteImg)
+
 module.exports = router;

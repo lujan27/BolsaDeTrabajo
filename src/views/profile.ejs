@@ -6,6 +6,53 @@
     <div class="row">
         <div class="col-4">
 
+            <img <%if(imgProfile==null){%>src="/img/profile.png"<% } else {%>src="<%=imgProfile.path%>"<% } %> class="img-thumbnail rounded mx-auto d-block" width="200" height="200">
+            <% if(imgProfile==null){ %> 
+            <label class="form-control mt-3 text-center border border-0">Actualice su foto de perfil:</label>
+            <form action="/upload" method="post" enctype="multipart/form-data" class="my-3">
+                <div class="input-group mb-3">                    
+                    <input type="file" name="image" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+                    <button class="btn btn-success" type="submit" id="button-addon2">Guardar</button>
+                  </div>                  
+            </form>
+            <% } else { %>
+                <!-- Button trigger modal -->
+                <div class="d-grid gap-2 my-3">
+                    <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#profile">
+                        <ion-icon name="camera-outline"></ion-icon> Actualizar/Eliminar foto
+                    </button>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="profile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Actualizar foto de perfil</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="form-control mt-3 text-center border border-0 fw-semibold">Foto de perfil actual:</h2>
+                        <img src="<%=imgProfile.path%>" class="img-thumbnail rounded mx-auto d-block" width="300" height="300">
+                        <h2 class="form-control mt-3 text-center border border-0 fw-semibold">Cargue una foto para actualizar</h2>
+                        <form action="/updateImg/<%=imgProfile._id%>?_method=PUT" method="post" enctype="multipart/form-data" class="my-3">
+                            <div class="input-group mb-3">                                
+                                <input type="file" name="image" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+                              </div>
+                    </div>
+                    <div class="modal-footer">                        
+                        <button class="btn btn-success" type="submit" id="button-addon2">Actualizar</button>
+                        </form>
+                        <form action="/deleteImg/<%=imgProfile._id%>?_method=DELETE" method="post">
+                            <button class="btn btn-danger" type="submit" id="button-addon2">Eliminar</button>
+                        </form>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            <% } %> 
+            
             <p class="fw-semibold"><%=user.name%></p>
             <p class="fw-light"><%=user.area%></p>
             <p><%=user.phone%></p>

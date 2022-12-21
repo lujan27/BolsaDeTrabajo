@@ -5,6 +5,8 @@ const session = require('express-session');
 const passport = require('passport');
 const path = require('path');
 const flash = require('connect-flash');
+const multer = require('multer');
+const {v4: uuid} = require('uuid');
 const moment = require('moment-timezone');
 moment.locale('es-mx');
 
@@ -27,6 +29,16 @@ app.set('views', path.join(__dirname, 'views'));
 //Middlewares
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'public/img/uploads'),
+    filename: (req, file, cb, filename) => {
+        cb(null, uuid() + path.extname(file.originalname));
+    }
+})
+app.use(multer({
+    storage: storage,
+    limits: {fileSize: 5000000}
+}).single('image'));
 app.use(methodoverride('_method'));
 app.use(cookieParser('SecretStringForCookies'));
 app.use(session({
