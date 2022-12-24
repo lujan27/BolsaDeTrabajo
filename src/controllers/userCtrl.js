@@ -3,15 +3,29 @@ const vacantModel = require("../models/vacantModel");
 const imgProfileModel = require("../models/imgProfileModel");
 const { unlink } = require('fs-extra');
 const path = require('path');
+const schoolarModel = require('../models/schoolarModel');
+const experienceModel = require('../models/experienceModel');
 
 const userCtrl = {};
 
 userCtrl.getUserHome = async (req, res, next) => {
+
+    const exp = await experienceModel.findOne({userID: req.user._id});
+
+    const study = await schoolarModel.findOne({userStudyID: req.user._id});
+
+    const imgProfile = await imgProfileModel.findOne({userprofile: req.user._id});
+
+    let alerts = [];
+
+    alerts.push(exp, study, imgProfile, req.user.presentation);    
+
     let perPage = 9;
     let page = req.params.page || 1;
 
     await vacantModel
         .find()
+        .sort({updatedAt: -1})
         .skip((perPage * page)-perPage)
         .limit(perPage)
         .exec((err, vacants) => {
@@ -21,7 +35,9 @@ userCtrl.getUserHome = async (req, res, next) => {
                     doc_title: 'Vacantes',
                     vacants,
                     current: page, 
-                    pages: Math.ceil(count / perPage)
+                    pages: Math.ceil(count / perPage),
+                    alerts,
+                    imgProfile
                 })
             })
         })

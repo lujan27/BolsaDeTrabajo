@@ -4,7 +4,7 @@
 
 <div class="container-fluid" style="padding: 1cm;">
     <div class="row">
-        <div class="col-4">
+        <div class="col-4 shadow-none p-3 mb-5 bg-light rounded">
 
             <img <%if(imgProfile==null){%>src="/img/profile.png"<% } else {%>src="<%=imgProfile.path%>"<% } %> class="img-thumbnail rounded mx-auto d-block" width="200" height="200">
             <% if(imgProfile==null){ %> 
@@ -53,12 +53,23 @@
                 </div>
             <% } %> 
             
-            <p class="fw-semibold"><%=user.name%></p>
-            <p class="fw-light"><%=user.area%></p>
-            <p><%=user.phone%></p>
+            <div class="row text-center">
+                <div class="col">
+                    <p class="fw-semibold"><%=user.name%></p>                    
+                </div>
+                <div class="col">
+                    <p class="fw-semibold"><%=user.lastname%></p>
+                </div>
+                <div class="col">
+                    <p class="fw-light"><%=user.area%></p>                    
+                </div>                
+            </div>
+            <p>Numero de teléfono: <%=user.phone%> </p>
+            <p>Correo electrónico: <%=user.email%> </p>
+            
         </div>
         <div class="col-8">
-            <div class="container-fluid">
+            <div class="container-fluid shadow p-3 mb-5 bg-body rounded">
                 <form action="/profile-editInfo/<%=profile._id%>?_method=PUT" method="post">
                 <div class="row">                    
                     <div class="col-6">

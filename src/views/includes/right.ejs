@@ -1,22 +1,37 @@
-<div class="col-3 card" id="right">
+<div class="col-3 card" id="right" style="max-height: 850px;">
     <div class="card-header encabezado text-center">
         <a href="/profile/<%=user._id%>" style="color: white;">
           <ion-icon name="person-circle-outline"></ion-icon> Perfil: <%=user.username%>
         </a>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          A list item
-          <span class="badge bg-danger rounded-pill">14</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          A second list item
-          <span class="badge bg-danger rounded-pill">2</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          A third list item
-          <span class="badge bg-danger rounded-pill">1</span>
-        </li>
+    <ul class="list-group" style="font-size: 17px;">
+      <% if(doc_title == 'Vacantes') {%> 
+        <% if(alerts[0] == null) {%> 
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p class="fw-semibold mb-3"><ion-icon name="analytics-outline"></ion-icon> Agregue experiencias laborales. </p>
+          </li>
+        <% } %> 
+        <% if(alerts[2] == null) {%>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p class="fw-semibold mb-3"><ion-icon name="image-outline"></ion-icon> Agregue una foto de perfil. </p>
+          </li>
+        <% } %> 
+        <% if(alerts[1] == null) {%>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p class="fw-semibold mb-3"><ion-icon name="school-outline"></ion-icon> Agregue su historial académico. </p>
+          </li>
+        <% } %> 
+        <% if(alerts[3] == undefined) {%>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p class="fw-semibold mb-3"><ion-icon name="document-text-outline"></ion-icon> Actualice su presentación. </p>
+          </li>
+        <% } %> 
+        <% if(alerts[3] != undefined && alerts[0,1,2] != null) {%>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <p class="fw-semibold mb-3"><ion-icon name="happy-outline"></ion-icon> Mantenga actualizada su información. </p>
+          </li>
+        <% } %> 
+      <% } %> 
       </ul>
     <div class="card-body">        
         <p class="card-text vacante">With supporting text below as a natural lead-in to additional content.</p>

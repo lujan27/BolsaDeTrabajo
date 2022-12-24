@@ -12,19 +12,51 @@
                 <div class="col-4" id="vacantCard">
 
                     <div class="card mb-3" style="max-width: 18rem; height: 400px; max-height: 400px;">
-                        <div class="card-header text-center"><strong><%=vacant.title%></strong></div>
+                        <div class="card-header text-center"><ion-icon name="newspaper-outline"></ion-icon> <strong><%=vacant.title%></strong></div>
                         <div class="card-body">
-                          <h5 class="card-title">Descripción: </h5>
+                          <h5 class="card-title"><ion-icon name="book-outline"></ion-icon> Descripción: </h5>
                           <p class="card-text text-justify">
                             <%= (vacant.description.length > 200) 
                                     ? vacant.description.slice(0, 200) + '...'
                                     : vacant.description%>
                           </p>                            
                         </div>
-                        <div class="card-footer text-center menu"><%=moment(vacant.createdAt).fromNow()%></div>
-                        <a href="#" class="btn" id="vacantInfo">
-                            Ver información...                            
-                        </a>
+                        <div class="card-footer text-center menu"><ion-icon name="time-outline"></ion-icon> <%=moment(vacant.createdAt).fromNow()%></div>                        
+
+                        <!-- Button trigger modal -->
+                        <button type="button" id="vacantInfo" class="btn" data-bs-toggle="modal" data-bs-target="#information-<%=i%>">
+                            <ion-icon name="eye-outline"></ion-icon> Ver información
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="information-<%=i%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel"><ion-icon name="newspaper-outline"></ion-icon> <b><%=vacant.title%></b></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <ion-icon name="apps-outline"></ion-icon> <b> Puesto: <%=vacant.position%> | Horario: <%=vacant.scheduleIn%> - <%=vacant.scheduleOut%> </b>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title"><ion-icon name="book-outline"></ion-icon> Descripción:</h5>
+                                          <p class="card-text text-justify"><%=vacant.description%></p>
+                                          <p class="card-text fst-italic">Salario: <%=vacant.salary%></p>
+                                          <p class="card-text text-right text-muted">Publicado por: <%=vacant.createdby%></p>
+                                          <p class="text-right text-muted"><ion-icon name="time-outline"></ion-icon> <%=moment(vacant.createdAt).fromNow()%></p>                                          
+                                        </div>
+                                      </div>                                
+                                
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
                       </div>
                 </div>
             
